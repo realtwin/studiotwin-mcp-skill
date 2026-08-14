@@ -1,28 +1,39 @@
 # Connector: Blender MCP
 
-**Status: planned / not yet available.** _(Placeholder — 2026-08-14. Awaiting
-StudioTwin material.)_
+**Status: in development, not yet launched.** A StudioTwin Blender addon exists
+(v0.1) but is **TBD / not public** — it launches together with the remote (web)
+MCP. Only the Unreal connector is active today. Do not tell a user the Blender
+connector is available yet.
 
-This reference is a stub for a future StudioTwin Blender MCP surface. Until it
-ships and this file is completed:
+## Architecture (planned)
 
-- **Do not claim a Blender connector exists or is supported.** If a user asks for
-  StudioTwin-in-Blender, tell them it is not yet available and point them to the
-  live Unreal Engine connector ([ue-mcp.md](ue-mcp.md)) or the web connector
-  ([web-mcp.md](web-mcp.md)) if that is a fit.
+Blender does **not** re-implement platform logic. It is a **thin hands** layer on
+the same backend:
+
+- Generation goes through the **remote (web) MCP** (or REST) — see
+  [web-mcp.md](web-mcp.md). Same `x-api-key` auth, same job/asset lifecycle.
+- A **thin StudioTwin Blender addon** extends the community `blender-mcp`
+  (ahujasid) pattern and adds StudioTwin verbs: `generate_*` plus
+  **`studiotwin_import_asset(assetId)`**, which imports a generated asset into the
+  Blender scene by **asset id** (via the platform's `GET /assets/:uuid`).
+- This reuses the **asset-id interchange contract**: generate once on the platform,
+  then import the same asset by id in Unreal *or* Blender — no duplicate generation.
+- v1 scope: the natural Blender consumers — **materials, meshes, and environment
+  maps**.
+
+## For the agent, until it launches
+
+- Route generation intent to the remote/web connector once that is live; use the
+  Blender addon only for **import-by-asset-id** into the scene.
 - **Discover, do not assume.** If a Blender MCP surface is configured in the host,
-  connect and treat the live tool definitions as the authority — exactly as with
-  UE. Never guess tool names, schemas, costs, or import behavior.
+  connect and treat the live tool definitions as authoritative — never guess tool
+  names, schemas, costs, units, or axis/orientation behavior.
+- Blender-specific caveats (units, axis/orientation, import destinations, mutation
+  scope) will be documented here once the addon is public.
 
-## To be filled in when material lands
+The `SKILL.md` operating policy applies unchanged once the connector is live.
 
-- How StudioTwin exposes MCP inside Blender (add-on? external server? transport).
-- Install + connect flow (Blender version support, add-on install, API key config).
-- Capability groups available in Blender vs. UE (parity or subset).
-- Where downloaded intermediates land and how assets import into the `.blend`.
-- Blender-specific paths, units, axis/orientation, and mutation-scope caveats.
-- Authoritative docs link.
+## References (internal)
 
-The operating policy in `SKILL.md` (plan from intent, inspect before acting,
-submit-once/poll, verify results, report concisely, never expose secrets) applies
-unchanged to any Blender connector once live.
+- VPC-800 — StudioTwin verbs for blender-mcp (generate + import-by-asset-id). Done.
+- VPC-796 — parent epic (remote server + in-engine agentic integration).

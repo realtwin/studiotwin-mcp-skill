@@ -12,8 +12,10 @@ It never hardcodes or guesses them.
 
 - **Unreal Engine** — live, primary. StudioTwin UE plugin via Epic's Unreal MCP
   plugin, served locally inside the Editor.
-- **Web / no-DCC** — draft, unconfirmed (host-agnostic access to the same backend).
-- **Blender** — planned, not yet available.
+- **Remote (web)** — built, not yet public. Host-agnostic, editor-free access to
+  the same cloud backend (`POST /mcp`, `x-api-key`); launches with Blender.
+- **Blender** — in development, not yet launched. Thin addon over the remote MCP
+  that imports StudioTwin assets by id.
 
 ## Layout
 
@@ -21,8 +23,8 @@ It never hardcodes or guesses them.
 SKILL.md                          # entry: connectors, onboarding, operating policy
 references/
   connectors/ue-mcp.md            # the live UE MCP surface
-  connectors/web-mcp.md           # draft — pending confirmation
-  connectors/blender-mcp.md       # stub — planned
+  connectors/web-mcp.md           # remote /mcp — built, not yet public
+  connectors/blender-mcp.md       # thin addon over remote MCP — in development
   onboarding/register.md          # account + API key (st_…)
   onboarding/plugins.md           # download/install the right plugin
   onboarding/credits.md           # credits, free allocation, cost expectations
@@ -41,12 +43,13 @@ install the plugin for their host, and run a first generation.
 
 ## Status
 
-UE connector + onboarding are populated from StudioTwin's docs. Web and Blender
-connectors are stubs pending material. See open `[CONFIRM]` / `[TODO]` markers.
+UE connector + onboarding are populated from StudioTwin's docs and are usable
+today. The remote (web) and Blender connectors are documented from the platform's
+internal design but are not yet public — they launch together.
 
 ## License
 
-TODO — to be set (MIT recommended for OSS).
+[MIT](./LICENSE) © 2026 RealTwin Solutions Inc.
 
 ---
 

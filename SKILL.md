@@ -1,11 +1,12 @@
 ---
-name: "studiotwin-ue"
-description: "Operate StudioTwin generation, import, animation, and Editor workflows through the Unreal Engine MCP connector."
+name: "studiotwin-mcp"
+description: "Operate StudioTwin's cloud asset-generation platform — environment maps, PBR materials, 3D meshes, character motion, sound effects — through MCP. Covers the live Unreal Engine connector today, plus the remote (web) and Blender connectors as they land, and onboarding a user into StudioTwin. Use when generating assets for Unreal, Blender, or 3D-web/virtual-production work."
 author: RealTwin Solutions Inc.
-version: "1.0.0"
+version: "1.1.0"
+license: MIT
 ---
 
-# StudioTwin for Unreal Engine
+# StudioTwin MCP
 
 Use StudioTwin through the MCP tools exposed by a connected host. Treat the live MCP tool definitions as the authority for tool names, inputs, outputs, defaults, limits, and availability. Do not reproduce or infer those definitions from this skill.
 
@@ -14,10 +15,12 @@ Use StudioTwin through the MCP tools exposed by a connected host. Treat the live
 StudioTwin reaches the same cloud generation backend through different MCP surfaces. Select the one the host actually exposes and read its reference:
 
 - **Unreal Engine — live, primary.** StudioTwin UE plugin via Epic's Unreal MCP plugin, served locally inside the Editor. [references/connectors/ue-mcp.md](references/connectors/ue-mcp.md)
-- **Web / no-DCC — draft, unconfirmed.** Host-agnostic access to the cloud backend without an editor. Do not present as available until confirmed. [references/connectors/web-mcp.md](references/connectors/web-mcp.md)
-- **Blender — planned, not yet available.** [references/connectors/blender-mcp.md](references/connectors/blender-mcp.md)
+- **Remote (web) — built, not yet public.** Host-agnostic, editor-free access to the same cloud backend (`POST /mcp`, `x-api-key`); in internal review, launches with Blender. Do not present as available yet. [references/connectors/web-mcp.md](references/connectors/web-mcp.md)
+- **Blender — in development, not yet launched.** Thin addon over the remote MCP that imports by asset id. [references/connectors/blender-mcp.md](references/connectors/blender-mcp.md)
 
 Regardless of connector, the operating policy below applies. If the host exposes a StudioTwin surface not yet documented here, connect, discover live tools, and treat those definitions as authoritative.
+
+**Asset-id interchange.** StudioTwin generation and import are separable: a generation produces an **asset** with a uuid; an in-engine connector (UE / Blender) can **import that asset by id**. Generate once (in-engine or via the remote connector), then import the same asset wherever it is needed — never regenerate to move an asset between hosts.
 
 ## Onboarding a new user
 
