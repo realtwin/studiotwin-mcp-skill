@@ -1,92 +1,112 @@
 ---
-name: studiotwin-mcp-skill
-description: >-
-  Use StudioTwin's generative 3D/asset pipeline through its MCP server — turn
-  text and images into motion, 3D meshes, environments, and PBR materials for
-  Unreal Engine and virtual-production workflows. Use when a user wants to
-  generate game-ready 3D assets, animate characters from text, convert images to
-  3D or to environment splats, or produce tileable materials, and has (or wants
-  to connect) a StudioTwin account.
-license: TODO — confirm with Victor (MIT recommended for OSS)
+name: "studiotwin-ue"
+description: "Operate StudioTwin generation, import, animation, and Editor workflows through the Unreal Engine MCP connector."
+author: RealTwin Solutions Inc.
+version: "1.0.0"
 ---
 
-# StudioTwin MCP Skill
+# StudioTwin for Unreal Engine
 
-> **v1 DRAFT — 2026-08-14.** Scaffold pending Victor's follow-up material on the
-> MCP server (tool names, auth flow, endpoints). Sections marked **[TODO]** are
-> placeholders to be filled from that material, not verified facts.
+Use StudioTwin through the MCP tools exposed by a connected host. Treat the live MCP tool definitions as the authority for tool names, inputs, outputs, defaults, limits, and availability. Do not reproduce or infer those definitions from this skill.
 
-## What this skill does
+## Connectors
 
-StudioTwin exposes its generative asset pipeline over the Model Context Protocol
-(MCP). This skill teaches an agent how to connect to the StudioTwin MCP server,
-authenticate, invoke the generation tools, poll long-running jobs, and hand the
-resulting assets to Unreal Engine (via the StudioTwin plugin) or other DCC tools.
+StudioTwin reaches the same cloud generation backend through different MCP surfaces. Select the one the host actually exposes and read its reference:
 
-## When to use it
+- **Unreal Engine — live, primary.** StudioTwin UE plugin via Epic's Unreal MCP plugin, served locally inside the Editor. [references/connectors/ue-mcp.md](references/connectors/ue-mcp.md)
+- **Web / no-DCC — draft, unconfirmed.** Host-agnostic access to the cloud backend without an editor. Do not present as available until confirmed. [references/connectors/web-mcp.md](references/connectors/web-mcp.md)
+- **Blender — planned, not yet available.** [references/connectors/blender-mcp.md](references/connectors/blender-mcp.md)
 
-- Generate a game-ready **3D mesh** from a single image (Image → 3D).
-- Generate an explorable **environment** (splat/scene) from an image (Image → Env).
-- Animate a character or object from a text prompt (**Text → Motion**).
-- Produce a tileable **PBR material** from a texture reference (Texture → Material).
-- Chain the above into a scene and place assets in Unreal via the plugin.
+Regardless of connector, the operating policy below applies. If the host exposes a StudioTwin surface not yet documented here, connect, discover live tools, and treat those definitions as authoritative.
 
-## Prerequisites
+## Onboarding a new user
 
-1. A StudioTwin account and an **organization API key** (from the dashboard).
-2. Available **credits** — generation is metered (see cost table below).
-3. The StudioTwin MCP server configured in the host (Claude Code / OpenClaw / etc.).
+If the user has no StudioTwin account, API key, or installed plugin, guide them (they act; you explain and verify only what the connector reports) — never ask for the API key in chat:
 
-## Connecting the MCP server
+- Account + API key (`st_…`, shown once): [references/onboarding/register.md](references/onboarding/register.md)
+- Download/install the right plugin for the connector: [references/onboarding/plugins.md](references/onboarding/plugins.md)
+- Credits, the free monthly allocation, and cost expectations: [references/onboarding/credits.md](references/onboarding/credits.md)
 
-**[TODO — from Victor's material]** Exact server command / URL, transport
-(stdio vs. SSE/HTTP), and env vars. Expected shape:
+## Start every session
 
-```jsonc
-// mcp config (illustrative — confirm against real server)
-{
-  "mcpServers": {
-    "studiotwin": {
-      "command": "npx",
-      "args": ["-y", "@studiotwin/mcp-server"],
-      "env": { "STUDIOTWIN_API_KEY": "sk_org_..." }
-    }
-  }
-}
-```
+1. Attempt to connect to the configured UE MCP server and discover its live tools.
+2. If discovery succeeds, use the live definitions as the authority and continue planning.
+3. Read only the references needed for the request:
+   - Which connector is in use and its constraints: [references/connectors/](references/connectors/)
+   - Onboarding a user without an account/key/plugin: [references/onboarding/](references/onboarding/)
+   - Installation, connection, and first-run checks (UE): [references/setup.md](references/setup.md)
+   - Capability selection and planning: [references/capabilities.md](references/capabilities.md)
+   - Async jobs, imports, and Editor mutations: [references/operations.md](references/operations.md)
+   - Prompting, source preparation, and quality guidance: [references/content-guidance.md](references/content-guidance.md)
+   - Failure diagnosis and recovery: [references/troubleshooting.md](references/troubleshooting.md)
 
-## Tools (mapped to StudioTwin generation types)
+If connection or discovery fails:
 
-> Tool names below are **[TODO placeholders]** — replace with the server's actual
-> tool identifiers once known. Credit costs are the current published product
-> figures.
+1. Stop before planning or attempting StudioTwin work.
+2. Read [references/troubleshooting.md](references/troubleshooting.md).
+3. Report the connection or discovery failure to the user.
+4. Ask the user to perform the relevant host-side checks: open a compatible Unreal Editor project, confirm the StudioTwin plugin and MCP registry dependency are installed and enabled, and verify the connector configuration.
+5. Retry discovery only after the user confirms the host-side setup is ready.
 
-| Capability        | Input            | Output              | Credits |
-| ----------------- | ---------------- | ------------------- | ------: |
-| Text → Motion     | text prompt      | animation           |       5 |
-| Image → 3D        | image            | 3D mesh             |      25 |
-| Image → Env       | image            | environment / splat |      25 |
-| Texture → Material| texture image    | tileable PBR set    |      20 |
+Never claim to have verified Editor or plugin state unless the connected MCP surface provides direct evidence. Never guess a tool name or schema.
 
-Each generation tool is expected to be **asynchronous**: it returns a job id;
-poll for status until the asset URL is ready. **[TODO]** confirm poll tool +
-status enum.
+## Operating policy
 
-## Typical flow
+### Plan from intent
 
-1. Confirm the user's intent and which capability it maps to.
-2. Check credits are sufficient for the operation.
-3. Call the generation tool with the prompt/image and any parameters.
-4. Poll the job until complete; surface progress to the user.
-5. Return the asset URL / download, and offer plugin hand-off for Unreal.
+Translate the request into a deliverable and the smallest sequence of discovered capabilities. Distinguish:
 
-## Errors & limits
+- paid generation from local Editor operations;
+- generation/import from level or sequence mutation;
+- independent stages from stages that consume earlier outputs;
+- requested work from optional variants, retries, saving, rendering, or scene changes.
 
-**[TODO]** rate limits, max input resolution, supported formats, failure/retry
-semantics, credit-refund-on-failure behavior.
+Do not treat authorization for one stage as authorization for extra generations, batches, retries, level mutations, saves, or renders.
 
-## References
+### Inspect before acting
 
-- StudioTwin dashboard & docs — **[TODO: link]**
-- StudioTwin Unreal plugin — **[TODO: link]**
-- MCP spec: https://modelcontextprotocol.io
+Read the selected live tool definition immediately before calling it. Validate required inputs, accepted path forms, constraints, cost information, async behavior, and output contract from the live definition. UE object paths, local paths, URIs, and cloud references are not interchangeable unless the live definition explicitly says so.
+
+If a paid operation has no live cost estimate or formula, state that the cost is unknown before requesting authorization. Never copy pricing from another connector.
+
+### Execute incrementally
+
+For asynchronous work:
+
+1. Submit once.
+2. Preserve the returned job or correlation identifier.
+3. Poll that existing job at the recommended interval.
+4. Do not resubmit merely because a transport response was lost or ambiguous.
+5. Continue dependent work only after verified successful completion.
+
+For synchronous Editor operations, verify the target project, level, asset destination, source paths, and mutation scope before calling. Treat imports and level or sequence edits as state-changing operations.
+
+Parallelize only independent, explicitly authorized work.
+
+### Verify the result
+
+Do not equate a terminal job state with a complete deliverable. Inspect returned warnings and notes, then verify the expected UE assets, object paths, classes, roles, level actors, sequences, or animation results. Report partial imports and missing roles honestly.
+
+Do not claim that an asset was saved, persisted, transactionally undoable, or collision-free unless verified in the current environment.
+
+### Report concisely
+
+Report:
+
+- capability and discovered tool used;
+- job identifier for asynchronous work;
+- source and resulting UE asset paths;
+- level or sequence mutations;
+- warnings, missing artifacts, or partial success;
+- what was verified and what remains unverified.
+
+Never expose credentials, API keys, signed URLs, or other transient secrets.
+
+## Completion checklist
+
+- Live tools were discovered and their current definitions were followed.
+- Paid work and Editor mutations stayed within the authorized scope.
+- Async work was submitted once and polled by identifier.
+- Dependent stages ran in order.
+- Expected UE artifacts and scene changes were verified.
+- Partial success, warnings, costs, and unresolved persistence behavior were disclosed.
