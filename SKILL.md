@@ -10,6 +10,14 @@ license: MIT
 
 Use StudioTwin through the MCP tools exposed by a connected host. Treat the live MCP tool definitions as the authority for tool names, inputs, outputs, defaults, limits, and availability. Do not reproduce or infer those definitions from this skill.
 
+> **Getting the full skill.** This file is the entry point of a **multi-file** skill. The `references/…` links throughout are **files in the repository, not inline content** — read the ones relevant to the request before acting.
+> - **Preferred — clone the whole skill** (gets every reference at once):
+>   `git clone https://github.com/realtwin/studiotwin-mcp-skill`
+>   or drop it into your client's skills directory, e.g. `.claude/skills/studiotwin-mcp/`.
+> - **Fetch-only (no git):** each reference path resolves against the raw base
+>   `https://raw.githubusercontent.com/realtwin/studiotwin-mcp-skill/main/` — e.g.
+>   `…/main/references/connectors/ue-mcp.md`. Repo layout is listed in [README.md](README.md).
+
 ## Connectors
 
 StudioTwin reaches the same cloud generation backend through different MCP surfaces. Select the one the host actually exposes and read its reference:
