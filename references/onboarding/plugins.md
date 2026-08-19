@@ -9,6 +9,22 @@ Supported engine versions: **UE 5.6, 5.7, 5.8**. Each StudioTwin build is compil
 against one specific engine version — install the build that matches the project's
 engine, or the modules will fail to load.
 
+**Minimum plugin version for MCP: `3.0.0`.** The MCP surface was added in `3.0.0`;
+earlier builds (e.g. `2.6.1`) still work as an in-Editor toolkit but expose **no
+MCP tools**, so an MCP client discovers nothing. Before starting MCP work, confirm
+the installed StudioTwin version (**Edit → Plugins → search StudioTwin →** version
+shown on the card) is `3.0.0` or newer. If it is older, the user must update:
+
+- **FAB / Epic Games Launcher:** **Fab → My Library → StudioTwin → Update** (or
+  re-install into the engine version slot) to pull the latest build, then
+  re-enable and restart. Updating keeps the same install method — do not mix FAB
+  and manual (see below).
+- **Manual:** download the current build for the exact engine version and replace
+  the existing `StudioTwin` plugin folder under `Plugins/`.
+
+After updating, re-enable StudioTwin and restart the Editor, then re-run MCP
+discovery.
+
 Two install paths (pick one and **upgrade later with the same method** — mixing
 FAB and manual installs leaves two copies and breaks setup):
 

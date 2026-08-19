@@ -48,6 +48,11 @@ Detailed capability-selection and prompting guidance: [../capabilities.md](../ca
 
 - Unreal Engine **5.6, 5.7, or 5.8** — each StudioTwin build is compiled against
   one specific engine version; the plugin build must match the project's engine.
+- **StudioTwin UE plugin `3.0.0` or newer.** The MCP surface exists only in
+  `3.0.0+`. Earlier builds (e.g. `2.6.1`) install and expose the Editor toolkits
+  but advertise **no MCP tools**, so discovery finds nothing regardless of engine
+  version. If the installed build is below `3.0.0`, treat MCP as unavailable and
+  ask the user to update from Fab (see `../onboarding/plugins.md`) before retrying.
 - StudioTwin UE plugin installed + enabled, with a valid `st_` API key.
 - Unreal MCP plugin (`ModelContextProtocol`) enabled; optional **All Toolsets**
   plugin to also expose Unreal's default toolsets. The Toolset Registry is a

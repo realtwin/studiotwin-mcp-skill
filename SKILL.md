@@ -2,7 +2,7 @@
 name: "studiotwin-mcp"
 description: "Operate StudioTwin's cloud asset-generation platform — environment maps, PBR materials, 3D meshes, character motion, sound effects — through MCP. Covers the live Unreal Engine connector today, plus the remote (web) and Blender connectors as they land, and onboarding a user into StudioTwin. Use when generating assets for Unreal, Blender, or 3D-web/virtual-production work."
 author: RealTwin Solutions Inc.
-version: "1.1.0"
+version: "1.2.0"
 license: MIT
 ---
 
@@ -50,7 +50,7 @@ If connection or discovery fails:
 1. Stop before planning or attempting StudioTwin work.
 2. Read [references/troubleshooting.md](references/troubleshooting.md).
 3. Report the connection or discovery failure to the user.
-4. Ask the user to perform the relevant host-side checks: open a compatible Unreal Editor project, confirm the StudioTwin plugin and MCP registry dependency are installed and enabled, and verify the connector configuration.
+4. Ask the user to perform the relevant host-side checks: open a compatible Unreal Editor project, confirm the StudioTwin plugin is **version `3.0.0` or newer** (the MCP surface only exists in `3.0.0+`; older builds like `2.6.1` expose the Editor toolkits but no MCP tools, so discovery finds nothing — see [references/onboarding/plugins.md](references/onboarding/plugins.md) to update from Fab), confirm the StudioTwin plugin and MCP registry dependency are installed and enabled, and verify the connector configuration.
 5. Retry discovery only after the user confirms the host-side setup is ready.
 
 Never claim to have verified Editor or plugin state unless the connected MCP surface provides direct evidence. Never guess a tool name or schema.

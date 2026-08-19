@@ -5,7 +5,9 @@ Use this reference when onboarding a user or when MCP discovery fails. Keep setu
 ## What is required
 
 1. **A compatible Unreal Editor project.**
-2. **The StudioTwin UE plugin.**
+2. **The StudioTwin UE plugin, version `3.0.0` or newer** — the MCP surface exists
+   only in `3.0.0+`. Older builds (e.g. `2.6.1`) expose the Editor toolkits but no
+   MCP tools.
 3. **The Unreal MCP plugin** (`ModelContextProtocol`), plus the **optional All Toolsets plugin** when the user also wants Unreal's default toolsets. Unreal MCP enables the Toolset Registry dependency automatically.
 4. **An MCP client configuration** generated for the user's agent or client.
 
@@ -18,7 +20,7 @@ If StudioTwin is not installed, direct the user to either:
 - [StudioTwin plugin installation guide](https://docs.studiotwin.ai/docs/plugin/installation/) for detailed instructions and version guidance.
 - [StudioTwin on Fab](https://www.fab.com/listings/db820954-ce06-47de-bdc0-054b669c1727) to obtain the plugin through Fab and the Epic Games Launcher.
 
-The StudioTwin build must match the exact Unreal Engine version used by the project. After installation, ask the user to open **Edit → Plugins**, enable **StudioTwin**, and restart Unreal Editor when prompted.
+The StudioTwin build must match the exact Unreal Engine version used by the project, **and be version `3.0.0` or newer for MCP**. After installation, ask the user to open **Edit → Plugins**, search **StudioTwin**, and confirm the version on the card is `3.0.0+` — if it is older (e.g. `2.6.1`), the user must update from Fab or the manual build before MCP will work (see [onboarding/plugins.md](onboarding/plugins.md)). Then enable **StudioTwin** and restart Unreal Editor when prompted.
 
 ## 2. Create an account and configure the API key — User
 
