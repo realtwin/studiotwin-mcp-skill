@@ -5,6 +5,24 @@ or API key yet. Guide them; never ask them to paste the key into chat, logs, or
 source control. The user performs these steps — the agent explains and verifies
 only what the connector reports.
 
+## First, place your operator
+
+If the live tools didn't tell you where you are, work it out *with* the operator
+before anything else — a short, natural exchange, not an interrogation. You're
+trying to learn three things:
+
+- **Where they're working** — Unreal Engine, Blender, or somewhere else / nothing
+  set up yet. This decides which connector you hand off to.
+- **Whether they already have a StudioTwin account and an `st_` API key.** If not,
+  start at step 1 below.
+- **For Unreal:** is the StudioTwin plugin installed and enabled, and what version?
+  MCP needs `3.0.0`+ (older builds are toolkit-only, no MCP — see [plugins.md](plugins.md)).
+  Is the Unreal MCP server running? (see [../setup.md](../setup.md))
+
+Their answers tell you which steps they still need and which connector fits. Ask
+plainly, one thing at a time, and verify only what the connector actually reports
+back — take nothing on faith.
+
 ## 1. Create an account
 
 Go to **[app.studiotwin.ai](https://app.studiotwin.ai)** and either:

@@ -2,7 +2,7 @@
 name: "studiotwin-mcp"
 description: "Operate StudioTwin's cloud asset-generation platform — environment maps, PBR materials, 3D meshes, character motion, sound effects — through MCP. Covers the live Unreal Engine connector today, plus the remote (web) and Blender connectors as they land, and onboarding a user into StudioTwin. Use when generating assets for Unreal, Blender, or 3D-web/virtual-production work."
 author: RealTwin Solutions Inc.
-version: "1.2.0"
+version: "1.3.0"
 license: MIT
 ---
 
@@ -34,26 +34,18 @@ If the user has no StudioTwin account, API key, or installed plugin, guide them 
 
 ## Start every session
 
-1. Attempt to connect to the configured UE MCP server and discover its live tools.
-2. If discovery succeeds, use the live definitions as the authority and continue planning.
-3. Read only the references needed for the request:
-   - Which connector is in use and its constraints: [references/connectors/](references/connectors/)
-   - Onboarding a user without an account/key/plugin: [references/onboarding/](references/onboarding/)
-   - Installation, connection, and first-run checks (UE): [references/setup.md](references/setup.md)
-   - Capability selection and planning: [references/capabilities.md](references/capabilities.md)
-   - Async jobs, imports, and Editor mutations: [references/operations.md](references/operations.md)
-   - Prompting, source preparation, and quality guidance: [references/content-guidance.md](references/content-guidance.md)
-   - Failure diagnosis and recovery: [references/troubleshooting.md](references/troubleshooting.md)
+**Orient first — work out where you are** by discovering the live MCP tools and reading the surface, then route:
 
-If connection or discovery fails:
+- StudioTwin toolkits behind Epic's Unreal MCP (`ModelContextProtocol`), local `127.0.0.1:8000/mcp`, tools that mutate an open project → **Unreal Engine**: [references/connectors/ue-mcp.md](references/connectors/ue-mcp.md).
+- `studiotwin_*` platform tools over a remote `/mcp` with `x-api-key`, no editor → **Web (remote)**: [references/connectors/web-mcp.md](references/connectors/web-mcp.md) — not public yet.
+- Blender addon verbs (`studiotwin_import_asset`, `generate_*`) → **Blender**: [references/connectors/blender-mcp.md](references/connectors/blender-mcp.md) — not launched yet.
+- No StudioTwin tools at all → nothing is connected here. Don't assume Unreal; help the operator get set up — [references/onboarding/register.md](references/onboarding/register.md) covers how to place them and what to ask.
 
-1. Stop before planning or attempting StudioTwin work.
-2. Read [references/troubleshooting.md](references/troubleshooting.md).
-3. Report the connection or discovery failure to the user.
-4. Ask the user to perform the relevant host-side checks: open a compatible Unreal Editor project, confirm the StudioTwin plugin is **version `3.0.0` or newer** (the MCP surface only exists in `3.0.0+`; older builds like `2.6.1` expose the Editor toolkits but no MCP tools, so discovery finds nothing — see [references/onboarding/plugins.md](references/onboarding/plugins.md) to update from Fab), confirm the StudioTwin plugin and MCP registry dependency are installed and enabled, and verify the connector configuration.
-5. Retry discovery only after the user confirms the host-side setup is ready.
+Once you've placed yourself, treat the live definitions as the authority and pull only the reference the request needs: [setup](references/setup.md), [capabilities](references/capabilities.md), [operations](references/operations.md), [content-guidance](references/content-guidance.md), [troubleshooting](references/troubleshooting.md).
 
-Never claim to have verified Editor or plugin state unless the connected MCP surface provides direct evidence. Never guess a tool name or schema.
+Found a StudioTwin surface but it won't connect or lists no tools? That's setup, not orientation — read [references/troubleshooting.md](references/troubleshooting.md). (Common one: a UE plugin below `3.0.0` runs as a toolkit but exposes no MCP tools — update from Fab, see [references/onboarding/plugins.md](references/onboarding/plugins.md).)
+
+Never claim to have verified host or plugin state unless the live surface shows it. Never guess a tool name or schema.
 
 ## Operating policy
 
