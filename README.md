@@ -14,8 +14,9 @@ It never hardcodes or guesses them.
   plugin, served locally inside the Editor.
 - **Remote (web)** — built, not yet public. Host-agnostic, editor-free access to
   the same cloud backend (`POST /mcp`, `x-api-key`); launches with Blender.
-- **Blender** — in development, not yet launched. Thin addon over the remote MCP
-  that imports StudioTwin assets by id.
+- **Blender** — in development, not yet launched. Hosted StudioTwin MCP for
+  generation, official Blender MCP for Editor access, and an importer-only
+  StudioTwin extension for downloaded local files.
 
 ## Layout
 
@@ -24,7 +25,7 @@ SKILL.md                          # entry: connectors, onboarding, operating pol
 references/
   connectors/ue-mcp.md            # the live UE MCP surface
   connectors/web-mcp.md           # remote /mcp — built, not yet public
-  connectors/blender-mcp.md       # thin addon over remote MCP — in development
+  connectors/blender-mcp.md       # hosted generation + local Blender import — in development
   onboarding/register.md          # account + API key (st_…)
   onboarding/plugins.md           # download/install the right plugin
   onboarding/credits.md           # credits, free allocation, cost expectations

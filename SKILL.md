@@ -18,11 +18,11 @@ StudioTwin reaches the same cloud generation backend through different MCP surfa
 
 - **Unreal Engine — live, primary.** StudioTwin UE plugin via Epic's Unreal MCP plugin, served locally inside the Editor. [references/connectors/ue-mcp.md](references/connectors/ue-mcp.md)
 - **Remote (web) — built, not yet public.** Host-agnostic, editor-free access to the same cloud backend (`POST /mcp`, `x-api-key`); in internal review, launches with Blender. Do not present as available yet. [references/connectors/web-mcp.md](references/connectors/web-mcp.md)
-- **Blender — in development, not yet launched.** Thin addon over the remote MCP that imports by asset id. [references/connectors/blender-mcp.md](references/connectors/blender-mcp.md)
+- **Blender — in development, not yet launched.** Hosted StudioTwin MCP for generation, official Blender MCP for Editor access, and an importer-only StudioTwin extension for applying downloaded local files. [references/connectors/blender-mcp.md](references/connectors/blender-mcp.md)
 
 Regardless of connector, the operating policy below applies. If the host exposes a StudioTwin surface not yet documented here, connect, discover live tools, and treat those definitions as authoritative.
 
-**Asset-id interchange.** StudioTwin generation and import are separable: a generation produces an **asset** with a uuid; an in-engine connector (UE / Blender) can **import that asset by id**. Generate once (in-engine or via the remote connector), then import the same asset wherever it is needed — never regenerate to move an asset between hosts.
+**Asset reuse across hosts.** StudioTwin generation and import are separable: a generation produces an **asset** with a uuid. Reuse that asset rather than regenerating it merely to change hosts. A connector may import by asset id or resolve and download the asset for a local importer; follow the live connector contract.
 
 ## Onboarding a new user
 
@@ -38,7 +38,7 @@ If the user has no StudioTwin account, API key, or installed plugin, guide them 
 
 - StudioTwin toolkits behind Epic's Unreal MCP (`ModelContextProtocol`), local `127.0.0.1:8000/mcp`, tools that mutate an open project → **Unreal Engine**: [references/connectors/ue-mcp.md](references/connectors/ue-mcp.md).
 - `studiotwin_*` platform tools over a remote `/mcp` with `x-api-key`, no editor → **Web (remote)**: [references/connectors/web-mcp.md](references/connectors/web-mcp.md) — not public yet.
-- Blender addon verbs (`studiotwin_import_asset`, `generate_*`) → **Blender**: [references/connectors/blender-mcp.md](references/connectors/blender-mcp.md) — not launched yet.
+- Hosted `studiotwin_*` platform tools plus official Blender MCP tools such as `execute_blender_code`, with Blender changes performed through the StudioTwin importer extension → **Blender**: [references/connectors/blender-mcp.md](references/connectors/blender-mcp.md) — not launched yet.
 - No StudioTwin tools at all → nothing is connected here. Don't assume Unreal; help the operator get set up — [references/onboarding/register.md](references/onboarding/register.md) covers how to place them and what to ask.
 
 Once you've placed yourself, treat the live definitions as the authority and pull only the reference the request needs: [setup](references/setup.md), [capabilities](references/capabilities.md), [operations](references/operations.md), [content-guidance](references/content-guidance.md), [troubleshooting](references/troubleshooting.md).
@@ -71,18 +71,19 @@ If a paid operation has no live cost estimate or formula, state that the cost is
 For asynchronous work:
 
 1. Submit once.
-2. Preserve the returned job or correlation identifier.
-3. Poll that existing job at the recommended interval.
+2. Preserve every returned identifier and label submission, status, generation,
+   and output identifiers separately when the connector returns more than one.
+3. Poll that existing submission at the recommended interval.
 4. Do not resubmit merely because a transport response was lost or ambiguous.
 5. Continue dependent work only after verified successful completion.
 
-For synchronous Editor operations, verify the target project, level, asset destination, source paths, and mutation scope before calling. Treat imports and level or sequence edits as state-changing operations.
+For synchronous Editor operations, verify the target project or Blender scene, destination, source paths, and mutation scope before calling. Treat imports and level, sequence, or Blender scene edits as state-changing operations.
 
 Parallelize only independent, explicitly authorized work.
 
 ### Verify the result
 
-Do not equate a terminal job state with a complete deliverable. Inspect returned warnings and notes, then verify the expected UE assets, object paths, classes, roles, level actors, sequences, or animation results. Report partial imports and missing roles honestly.
+Do not equate a terminal job state with a complete deliverable. Inspect returned warnings and notes, then verify the expected host assets, paths, classes or datablocks, roles, level actors, sequences, or animation results. Report partial imports and missing roles honestly.
 
 Do not claim that an asset was saved, persisted, transactionally undoable, or collision-free unless verified in the current environment.
 
@@ -91,9 +92,9 @@ Do not claim that an asset was saved, persisted, transactionally undoable, or co
 Report:
 
 - capability and discovered tool used;
-- job identifier for asynchronous work;
-- source and resulting UE asset paths;
-- level or sequence mutations;
+- submission job id and any distinct status, generation, or output identifiers;
+- source and resulting asset ids, local paths, UE object paths, or Blender datablocks as applicable;
+- level, sequence, or Blender scene mutations;
 - warnings, missing artifacts, or partial success;
 - what was verified and what remains unverified.
 
@@ -103,7 +104,7 @@ Never expose credentials, API keys, signed URLs, or other transient secrets.
 
 - Live tools were discovered and their current definitions were followed.
 - Paid work and Editor mutations stayed within the authorized scope.
-- Async work was submitted once and polled by identifier.
+- Async work was submitted once and polled by the original submission identifier.
 - Dependent stages ran in order.
-- Expected UE artifacts and scene changes were verified.
+- Expected host artifacts and scene changes were verified.
 - Partial success, warnings, costs, and unresolved persistence behavior were disclosed.
