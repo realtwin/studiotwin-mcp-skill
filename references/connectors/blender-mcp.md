@@ -33,6 +33,10 @@ User intent
 
 Full installation and first-connection instructions:
 [../onboarding/plugins.md](../onboarding/plugins.md#blender-in-development).
+Use only Blender's current installation paths documented there: the latest
+official add-on plus either the latest `.mcpb` bundle for a compatible client,
+or the official source checkout launched with
+`uv --directory <clone-path>/mcp run blender-mcp` for a stdio client.
 Hosted MCP transport and asset lifecycle: [web-mcp.md](web-mcp.md).
 If discovery, connection, download, or import fails, read the Blender sections
 in [../troubleshooting.md](../troubleshooting.md).
@@ -43,13 +47,13 @@ Stable orientation only — discover the live tools at runtime. These capability
 families belong to the hosted StudioTwin MCP; the Blender column describes what
 the current importer extension can consume after the output is downloaded.
 
-| Toolkit | What it does (image/text → asset) | Blender handling | Docs |
+| Toolkit | What it does (image/text → asset) | Blender handling | Current StudioTwin docs (UE) |
 | --- | --- | --- | --- |
-| Motion | Human animation from text or trajectory; edit, stitch, and retarget | No Blender importer; preserve and report the generated outputs | https://docs.studiotwin.ai/docs/plugin/toolkits/motion-toolkit/ |
-| Environment | HDR environment maps from text or image; upscale, outpaint, and derive worlds | Apply supported `.hdr` or `.png` environment outputs; select other outputs by their actual format | https://docs.studiotwin.ai/docs/plugin/toolkits/environment-toolkit/ |
-| Mesh | 3D mesh from an image reference | Import supported `.glb` outputs | https://docs.studiotwin.ai/docs/plugin/toolkits/mesh-toolkit/ |
-| Material | PBR material from texture, image, or text references | Build a new unassigned material from supported PBR texture maps | https://docs.studiotwin.ai/docs/plugin/toolkits/material-toolkit/ |
-| Audio | Sound effects from a text brief | Add supported audio outputs to the Blender sequencer | https://docs.studiotwin.ai/docs/plugin/toolkits/audio-toolkit/ |
+| Motion | Human animation from text or trajectory; edit, stitch, and retarget | No Blender importer; preserve and report the generated outputs | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/motion-toolkit/ |
+| Environment | HDR environment maps from text or image; upscale, outpaint, and derive worlds | Apply supported `.hdr` or `.png` environment outputs; select other outputs by their actual format | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/environment-toolkit/ |
+| Mesh | 3D mesh from an image reference | Import supported `.glb` outputs | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/mesh-toolkit/ |
+| Material | PBR material from texture, image, or text references | Build a new unassigned material from supported PBR texture maps | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/material-toolkit/ |
+| Audio | Sound effects from a text brief | Add supported audio outputs to the Blender sequencer | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/audio-toolkit/ |
 
 Generation, downloading, Blender import, material assignment, scene placement,
 and rendering are separate stages. A request for one does not authorize the
@@ -87,6 +91,16 @@ Before the first Blender change:
 5. Confirm Blender and the agent can read the same absolute local paths.
 
 Do not perform these Blender checks for a generation-only request.
+
+## Security boundary
+
+Official Blender MCP executes LLM-generated Python in Blender without guards.
+Keep its Blender bridge loopback-only, never expose the bridge port to a network,
+and avoid using it on a system or Blender session that can access sensitive data.
+Treat every `execute_blender_code` call as arbitrary local code execution, review
+its scope, and interpolate no untrusted text. Blender's upstream warning
+recommends a virtual machine or a system without sensitive information:
+https://www.blender.org/lab/mcp-server/.
 
 ## Operating workflow
 

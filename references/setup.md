@@ -1,8 +1,14 @@
-# StudioTwin UE MCP setup
+# StudioTwin MCP setup
 
 Use this reference when onboarding a user or when MCP discovery fails. Keep setup user-led: the agent explains the steps, attempts connection and discovery, and reports what remains unresolved.
 
-## What is required
+## Choose the host path
+
+- **Unreal Engine:** continue with the setup below.
+- **Blender:** do not follow the Unreal steps. Install and verify the hosted StudioTwin MCP, official Blender MCP, and local StudioTwin importer through [onboarding/plugins.md](onboarding/plugins.md#blender-in-development), then follow [connectors/blender-mcp.md](connectors/blender-mcp.md).
+- **Web / no DCC:** no Editor plugin is involved; follow [connectors/web-mcp.md](connectors/web-mcp.md). The remote connector is not public yet, so leave its endpoint unresolved unless StudioTwin supplied it.
+
+## Unreal Engine requirements
 
 1. **A compatible Unreal Editor project.**
 2. **The StudioTwin UE plugin, version `3.0.0` or newer** — the MCP surface exists
@@ -17,7 +23,7 @@ Use Epic's [Unreal MCP documentation](https://dev.epicgames.com/documentation/en
 
 If StudioTwin is not installed, direct the user to either:
 
-- [StudioTwin plugin installation guide](https://docs.studiotwin.ai/docs/plugin/installation/) for detailed instructions and version guidance.
+- [StudioTwin plugin installation guide](https://docs.studiotwin.ai/docs/ue-plugin/installation/) for detailed instructions and version guidance.
 - [StudioTwin on Fab](https://www.fab.com/listings/db820954-ce06-47de-bdc0-054b669c1727) to obtain the plugin through Fab and the Epic Games Launcher.
 
 The StudioTwin build must match the exact Unreal Engine version used by the project, **and be version `3.0.0` or newer for MCP**. After installation, ask the user to open **Edit → Plugins**, search **StudioTwin**, and confirm the version on the card is `3.0.0+` — if it is older (e.g. `2.6.1`), the user must update from Fab or the manual build before MCP will work (see [onboarding/plugins.md](onboarding/plugins.md)). Then enable **StudioTwin** and restart Unreal Editor when prompted.
@@ -34,7 +40,7 @@ After signing up and creating an API key:
 4. Leave **API Endpoint URL** empty unless StudioTwin support or deployment documentation specifies otherwise.
 5. Confirm Unreal accepts the key.
 
-The agent must not ask the user to paste the API key into chat, logs, source control, or the skill. If validation fails, ask the user to check whitespace, key status, organization, and endpoint settings using the [StudioTwin installation guide](https://docs.studiotwin.ai/docs/plugin/installation/).
+The agent must not ask the user to paste the API key into chat, logs, source control, or the skill. If validation fails, ask the user to check whitespace, key status, organization, and endpoint settings using the [StudioTwin installation guide](https://docs.studiotwin.ai/docs/ue-plugin/installation/).
 
 ## 3. Enable Unreal MCP — User
 

@@ -45,9 +45,9 @@ For the MCP flow specifically, the user also needs Epic's **Unreal MCP** plugin
 enabled and the MCP server started; full sequence in [../setup.md](../setup.md).
 
 - Install guide (both paths, upgrade/uninstall, troubleshooting):
-  https://docs.studiotwin.ai/docs/plugin/installation/
+  https://docs.studiotwin.ai/docs/ue-plugin/installation/
 - Version ↔ engine matrix (changelog):
-  https://docs.studiotwin.ai/docs/plugin/installation/changelog
+  https://docs.studiotwin.ai/docs/ue-plugin/installation/changelog
 
 ## Blender (in development)
 
@@ -83,33 +83,18 @@ if they have not received those details.
 
 ### 2. Install official Blender MCP — User
 
+Follow Blender's current [MCP Server installation guide](https://www.blender.org/lab/mcp-server/):
+
 1. Install and launch Blender 5.1 or newer.
-2. In Blender Preferences, add the Blender Lab extension repository using
-   `https://lab.blender.org/`.
-3. Open **Get Extensions**, find **MCP**, install it, and enable it.
-4. Ensure Blender's **Allow Online Access** preference is enabled. The MCP
-   extension uses a local TCP socket but refuses to start while Blender online
-   access is disabled.
-5. Open the MCP extension preferences. Keep the documented defaults unless the
-   client configuration requires otherwise: host `localhost`, port `9876`.
-   **Auto Start** is enabled by default; otherwise click
-   **Start MCP Bridge Server** and confirm the UI reports
-   **Server is running**.
-6. Install the official MCP server package in the environment used by the MCP
-   client:
+2. Install the official MCP add-on from Blender's guide. It provides a drag-and-drop installation, or a release `.zip` that can be installed through **Preferences → Get Extensions → Install from Disk**. Enable the add-on.
+3. Ensure Blender's **Allow Online Access** preference is enabled. The MCP add-on uses a local TCP socket but refuses to start while Blender online access is disabled.
+4. Open the MCP add-on preferences. Keep the bridge bound to loopback (`localhost`; documented default port `9876`). **Auto Start** is enabled by default; otherwise click **Start MCP Bridge Server** and confirm the UI reports **Server is running**. Never expose this bridge port to a network.
+5. Install the separate MCP server using the option supported by the client:
+   - For clients that support `.mcpb`, download the latest MCP bundle from the official [releases page](https://projects.blender.org/lab/blender_mcp/releases).
+   - For stdio clients, follow the official [source setup](https://projects.blender.org/lab/blender_mcp/wiki/Setup): clone `https://projects.blender.org/lab/blender_mcp.git` and configure the client to run `uv --directory <clone-path>/mcp run blender-mcp`.
+6. If the bridge host or port differs from the defaults, set `BLENDER_MCP_HOST` and `BLENDER_MCP_PORT` consistently in the MCP server configuration. Keep the host loopback-only.
 
-   ```text
-   pip install git+https://projects.blender.org/lab/blender_mcp.git#subdirectory=mcp
-   ```
-
-7. Configure the MCP client to launch `blender-mcp`. If host or port were
-   changed, set `BLENDER_MCP_HOST` and `BLENDER_MCP_PORT` consistently in that
-   MCP server configuration.
-
-Official project and current installation guidance:
-
-- https://projects.blender.org/lab/blender_mcp
-- https://www.blender.org/lab/mcp-server/
+The official Blender MCP can execute LLM-generated Python in Blender without guards. Blender recommends a virtual machine or a system without sensitive data; do not connect it to an untrusted scene or expose the local bridge. Source: [Blender MCP Server security warning](https://www.blender.org/lab/mcp-server/).
 
 ### 3. Install the StudioTwin Blender extension — User
 

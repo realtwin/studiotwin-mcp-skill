@@ -34,11 +34,11 @@ StudioTwin toolkit visible under **Tools → STUDIOTWIN** in the Editor:
 
 | Toolkit     | What it does (image/text → asset)                          | Docs |
 | ----------- | ---------------------------------------------------------- | ---- |
-| Motion      | human animation from text/trajectory; edit, stitch, retarget, load | https://docs.studiotwin.ai/docs/plugin/toolkits/motion-toolkit/ |
-| Environment | HDR environment maps from text/image; upscale, outpaint; env-map → world | https://docs.studiotwin.ai/docs/plugin/toolkits/environment-toolkit/ |
-| Mesh        | 3D mesh from an image reference                            | https://docs.studiotwin.ai/docs/plugin/toolkits/mesh-toolkit/ |
-| Material    | PBR material from texture/image/text references           | https://docs.studiotwin.ai/docs/plugin/toolkits/material-toolkit/ |
-| Audio       | sound effects from a text brief                            | https://docs.studiotwin.ai/docs/plugin/toolkits/audio-toolkit/ |
+| Motion      | human animation from text/trajectory; edit, stitch, retarget, load | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/motion-toolkit/ |
+| Environment | HDR environment maps from text/image; upscale, outpaint; env-map → world | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/environment-toolkit/ |
+| Mesh        | 3D mesh from an image reference                            | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/mesh-toolkit/ |
+| Material    | PBR material from texture/image/text references           | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/material-toolkit/ |
+| Audio       | sound effects from a text brief                            | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/audio-toolkit/ |
 
 Detailed capability-selection and prompting guidance: [../capabilities.md](../capabilities.md),
 [../content-guidance.md](../content-guidance.md). Job / import / mutation handling:
@@ -65,8 +65,8 @@ User onboarding (account, API key, plugin download): [../onboarding/register.md]
 ## Authorities
 
 - Epic Unreal MCP: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-mcp-in-unreal-editor
-- StudioTwin plugin install: https://docs.studiotwin.ai/docs/plugin/installation/
-- StudioTwin toolkits index: https://docs.studiotwin.ai/docs/plugin/toolkits/
+- StudioTwin plugin install: https://docs.studiotwin.ai/docs/ue-plugin/installation/
+- StudioTwin toolkits index: https://docs.studiotwin.ai/docs/ue-plugin/toolkits/
 
 > Credit costs per tool are published at
 > https://docs.studiotwin.ai/docs/dashboard/guides/how-credits-work but change
