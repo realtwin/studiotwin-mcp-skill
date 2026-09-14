@@ -10,7 +10,7 @@ Public setup authority: https://docs.studiotwin.ai/docs/web-mcp
 - Transport: stateless Streamable HTTP, one JSON-RPC message per `POST`; no session or SSE stream. The endpoint accepts `POST` only and exposes tools only.
 - Authentication: an `x-api-key` HTTP header containing the user's StudioTwin `st_...` API key.
 
-The user must first complete [account and API-key creation](account-api-key.md). Never place the key in chat, logs, source control, command-line arguments that will be logged, Blender, or this skill.
+The user must first complete [registration and API-key creation](register.md). Never place the key in chat, logs, source control, command-line arguments that will be logged, Blender, or this skill.
 
 ## Configure the active client
 

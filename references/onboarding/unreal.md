@@ -1,6 +1,6 @@
 # Onboarding: Unreal Engine
 
-Use this page for the StudioTwin UE plugin plus Epic's Unreal MCP. Complete [account and API-key creation](account-api-key.md) first. Treat the [StudioTwin installation guide](https://docs.studiotwin.ai/docs/ue-plugin/installation/) and [Epic Unreal MCP guide](https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-mcp-in-unreal-editor#optional:one-shotusingtheterminalplugin) as the detailed authorities.
+Use this page for the StudioTwin UE plugin plus Epic's Unreal MCP. Complete [registration and API-key creation](register.md) first. Treat the [StudioTwin installation guide](https://docs.studiotwin.ai/docs/ue-plugin/installation/) and [Epic Unreal MCP guide](https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-mcp-in-unreal-editor#optional:one-shotusingtheterminalplugin) as the detailed authorities.
 
 ## Ordered setup
 

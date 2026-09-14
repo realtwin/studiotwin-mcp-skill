@@ -61,7 +61,7 @@ Detailed capability-selection and prompting guidance: [../capabilities.md](../ca
   plugin to also expose Unreal's default toolsets. The Toolset Registry is a
   dependency of Unreal MCP and is enabled automatically.
 
-Full account and connector setup: [account and API key](../onboarding/account-api-key.md),
+Full account and connector setup: [registration and API key](../onboarding/register.md),
 then [Unreal onboarding](../onboarding/unreal.md). For an incomplete or uncertain
 setup, start at the [setup router](../setup.md).
 

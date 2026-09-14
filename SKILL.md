@@ -28,9 +28,9 @@ Regardless of connector, the operating policy below applies. If the host exposes
 
 If any account, credential, connection, plugin, or addon setup is incomplete, follow one complete route below. [references/setup.md](references/setup.md) remains the shared router and verification reference; the linked onboarding pages own setup details. The user performs setup actions; the agent explains, attempts connection and discovery, and verifies only what the connected surface reports. Never ask for the API key in chat.
 
-- **Web / no DCC:** [account and API key](references/onboarding/account-api-key.md) → [Web MCP connection](references/onboarding/web-mcp.md) → [Web MCP runtime](references/connectors/web-mcp.md). Web can operate standalone.
-- **Blender:** [account and API key](references/onboarding/account-api-key.md) → [Web MCP connection](references/onboarding/web-mcp.md) → [official Blender MCP and StudioTwin Blender addon setup](references/onboarding/blender.md) → [Blender runtime](references/connectors/blender-mcp.md). Do not skip Web MCP: it owns Blender's StudioTwin cloud operations.
-- **Unreal Engine:** [account and API key](references/onboarding/account-api-key.md) → [StudioTwin UE plugin and Unreal MCP setup](references/onboarding/unreal.md) → [Unreal runtime](references/connectors/ue-mcp.md). This route is independent of Web MCP and requires Unreal Engine 5.8 or newer plus StudioTwin `3.0.0+` for native Unreal MCP; the plugin build must match the engine version.
+- **Web / no DCC:** [register and create an API key](references/onboarding/register.md) → [Web MCP connection](references/onboarding/web-mcp.md) → [Web MCP runtime](references/connectors/web-mcp.md). Web can operate standalone.
+- **Blender:** [register and create an API key](references/onboarding/register.md) → [Web MCP connection](references/onboarding/web-mcp.md) → [official Blender MCP and StudioTwin Blender addon setup](references/onboarding/blender.md) → [Blender runtime](references/connectors/blender-mcp.md). Do not skip Web MCP: it owns Blender's StudioTwin cloud operations.
+- **Unreal Engine:** [register and create an API key](references/onboarding/register.md) → [StudioTwin UE plugin and Unreal MCP setup](references/onboarding/unreal.md) → [Unreal runtime](references/connectors/ue-mcp.md). This route is independent of Web MCP and requires Unreal Engine 5.8 or newer plus StudioTwin `3.0.0+` for native Unreal MCP; the plugin build must match the engine version.
 
 ## Start every session
 

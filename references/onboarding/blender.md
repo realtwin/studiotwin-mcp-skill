@@ -4,7 +4,7 @@
 
 Public setup authority: https://docs.studiotwin.ai/docs/blender-addon/mcp-setup
 
-Complete [account and API-key creation](account-api-key.md), then [connect and verify Web MCP](web-mcp.md). Do not duplicate or improvise its endpoint, authentication, or client configuration here.
+Complete [registration and API-key creation](register.md), then [connect and verify Web MCP](web-mcp.md). Do not duplicate or improvise its endpoint, authentication, or client configuration here.
 
 ## Ordered setup
 

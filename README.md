@@ -17,13 +17,11 @@ SKILL.md                              # entry: routing and operating policy
 references/
   setup.md                            # canonical ordered setup router
   onboarding/
-    account-api-key.md                # shared account, API key, and hygiene
+    register.md                       # shared registration, workspace, API key, and hygiene
     web-mcp.md                        # canonical hosted Web MCP connection setup
     unreal.md                         # StudioTwin UE plugin + Unreal MCP setup
     blender.md                        # official Blender MCP + StudioTwin addon setup
     credits.md                        # shared credits and cost expectations
-    register.md                       # compatibility redirect for old links
-    plugins.md                        # compatibility index for old links
   connectors/
     ue-mcp.md                         # UE runtime contract
     web-mcp.md                        # hosted Web MCP runtime contract
@@ -38,9 +36,9 @@ references/
 
 Incomplete setups always start at [references/setup.md](references/setup.md), which routes the user through one ordered path:
 
-- Web: account/API key → Web MCP → Web runtime
-- Blender: account/API key → Web MCP → Blender components → Blender runtime
-- Unreal: account/API key → Unreal components → Unreal runtime
+- Web: [registration/API key](references/onboarding/register.md) → Web MCP → Web runtime
+- Blender: [registration/API key](references/onboarding/register.md) → Web MCP → Blender components → Blender runtime
+- Unreal: [registration/API key](references/onboarding/register.md) → Unreal components → Unreal runtime
 
 ## Status
 
