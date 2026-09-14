@@ -39,7 +39,7 @@ For hosted generation, upload a local source image through the live upload lifec
 
 ### Motion and animation
 
-Use for trajectory-driven or text-driven motion generation, motion modification or stitching, importing animation data, retargeting where supported, and creating trajectory-control sequences in Unreal. StudioTwin's Blender extension has no motion importer; preserve and report generated motion outputs rather than improvising an importer.
+Use for trajectory-driven or text-driven motion generation, motion modification or stitching, importing animation data, retargeting where supported, and creating trajectory-control sequences in Unreal. Web MCP supports motion generation and download. StudioTwin Blender motion import is **in progress**; preserve and report generated motion outputs, and do not attempt or improvise Blender import until the live addon exposes it.
 
 Motion workflows may impose strict frame-rate, frame-span, range, skeleton, and retargeting constraints. Read the live definitions and runtime validation rather than maintaining a second static contract here.
 

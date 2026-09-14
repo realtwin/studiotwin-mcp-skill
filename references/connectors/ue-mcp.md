@@ -4,8 +4,9 @@
 
 ## What it is
 
-StudioTwin does not ship a standalone MCP server. Its MCP surface is the
-**StudioTwin Unreal Engine plugin** exposed through Epic's **Unreal MCP plugin**
+For Unreal Engine, StudioTwin does not ship a standalone MCP server. This
+connector is the **StudioTwin Unreal Engine plugin** exposed through Epic's
+**Unreal MCP plugin**
 (`ModelContextProtocol`, shown as "Unreal MCP" in the Plugin Browser). The Unreal
 MCP server runs inside the Unreal Editor process and advertises the StudioTwin
 toolkits to an MCP client (Claude Code, Cursor, VS Code, Gemini, Codex, …) over a
@@ -46,21 +47,23 @@ Detailed capability-selection and prompting guidance: [../capabilities.md](../ca
 
 ## Requirements
 
-- Unreal Engine **5.6, 5.7, or 5.8** — each StudioTwin build is compiled against
-  one specific engine version; the plugin build must match the project's engine.
+- Unreal Engine **5.8 or newer** for the native Unreal MCP path. StudioTwin plugin
+  builds also support Unreal Engine 5.6 and 5.7 for Editor workflows, but those
+  versions do not provide the native Unreal MCP path described here. Each build
+  is compiled against one specific engine version and must match the project.
 - **StudioTwin UE plugin `3.0.0` or newer.** The MCP surface exists only in
   `3.0.0+`. Earlier builds (e.g. `2.6.1`) install and expose the Editor toolkits
   but advertise **no MCP tools**, so discovery finds nothing regardless of engine
   version. If the installed build is below `3.0.0`, treat MCP as unavailable and
-  ask the user to update from Fab (see `../onboarding/plugins.md`) before retrying.
+  ask the user to update from Fab (see [Unreal onboarding](../onboarding/unreal.md)) before retrying.
 - StudioTwin UE plugin installed + enabled, with a valid `st_` API key.
 - Unreal MCP plugin (`ModelContextProtocol`) enabled; optional **All Toolsets**
   plugin to also expose Unreal's default toolsets. The Toolset Registry is a
   dependency of Unreal MCP and is enabled automatically.
 
-Full install, server-start, client-config, and first-run flow: [../setup.md](../setup.md).
-User onboarding (account, API key, plugin download): [../onboarding/register.md](../onboarding/register.md),
-[../onboarding/plugins.md](../onboarding/plugins.md).
+Full account and connector setup: [account and API key](../onboarding/account-api-key.md),
+then [Unreal onboarding](../onboarding/unreal.md). For an incomplete or uncertain
+setup, start at the [setup router](../setup.md).
 
 ## Authorities
 

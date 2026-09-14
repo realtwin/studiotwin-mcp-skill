@@ -1,9 +1,8 @@
 # Connector: Blender MCP
 
-**Status: in development, not yet public.** The StudioTwin Blender extension
-and hosted StudioTwin MCP launch together. Until StudioTwin publishes them, use
-this workflow only when the operator has been given both components; do not
-invent a download or production endpoint.
+**Status: released.** The workflow uses StudioTwin Web MCP, official Blender MCP,
+and the StudioTwin Blender addon. Web MCP can operate standalone; Blender
+depends on it.
 
 ## What it is
 
@@ -11,45 +10,42 @@ StudioTwin reaches Blender through four cooperating parts:
 
 | Component | Responsibility |
 | --- | --- |
-| Hosted StudioTwin MCP | Advertises generation schemas, accepts uploads, estimates cost, submits and reports jobs, and resolves assets. |
+| StudioTwin Web MCP | Owns all StudioTwin cloud generation, uploads, cost estimates, jobs, asset resolution, and downloads. |
 | Agent | Orchestrates the live tools and securely transfers files between the hosted service and the local machine. |
 | Official Blender MCP | Runs Python in the open Blender process through `execute_blender_code`. |
-| StudioTwin Blender extension | Applies supported local files to the Blender scene through deterministic importer functions. |
+| StudioTwin Blender addon | Applies supported local files to the Blender scene through deterministic importer functions. |
 
-The StudioTwin extension is **not** an MCP server. It performs no network
+The StudioTwin Blender addon is **not** an MCP server. It performs no network
 requests, stores no API key, and does not manage generation jobs. It accepts
-local files only. The hosted StudioTwin MCP cannot read Blender's local paths,
+local files only. Web MCP cannot read Blender's local paths,
 so local generation inputs must first be uploaded and generated outputs must be
 downloaded before the Blender import stage.
 
 ```text
 User intent
-  -> hosted StudioTwin MCP (upload / generate / poll / resolve)
+  -> StudioTwin Web MCP (upload / generate / poll / resolve / download)
   -> local downloaded files
   -> official Blender MCP (`execute_blender_code`)
-  -> StudioTwin importer
+  -> StudioTwin Blender addon importer
   -> Blender datablocks
 ```
 
-Full installation and first-connection instructions:
-[../onboarding/plugins.md](../onboarding/plugins.md#blender-in-development).
-Use only Blender's current installation paths documented there: the latest
-official add-on plus either the latest `.mcpb` bundle for a compatible client,
-or the official source checkout launched with
-`uv --directory <clone-path>/mcp run blender-mcp` for a stdio client.
-Hosted MCP transport and asset lifecycle: [web-mcp.md](web-mcp.md).
+Connection setup is canonical in [Web MCP onboarding](../onboarding/web-mcp.md).
+Official Blender MCP and StudioTwin Blender addon installation are in
+[Blender onboarding](../onboarding/blender.md). Web MCP runtime and asset
+lifecycle: [web-mcp.md](web-mcp.md).
 If discovery, connection, download, or import fails, read the Blender sections
 in [../troubleshooting.md](../troubleshooting.md).
 
 ## Capability groups (toolkits)
 
 Stable orientation only — discover the live tools at runtime. These capability
-families belong to the hosted StudioTwin MCP; the Blender column describes what
-the current importer extension can consume after the output is downloaded.
+families belong to StudioTwin Web MCP; the Blender column describes what the
+current addon importer can consume after the output is downloaded.
 
 | Toolkit | What it does (image/text → asset) | Blender handling | Current StudioTwin docs (UE) |
 | --- | --- | --- | --- |
-| Motion | Human animation from text or trajectory; edit, stitch, and retarget | No Blender importer; preserve and report the generated outputs | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/motion-toolkit/ |
+| Motion | Human animation from text or trajectory; edit, stitch, and retarget | Import in progress; preserve and report generated outputs | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/motion-toolkit/ |
 | Environment | HDR environment maps from text or image; upscale, outpaint, and derive worlds | Apply supported `.hdr` or `.png` environment outputs; select other outputs by their actual format | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/environment-toolkit/ |
 | Mesh | 3D mesh from an image reference | Import supported `.glb` outputs | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/mesh-toolkit/ |
 | Material | PBR material from texture, image, or text references | Build a new unassigned material from supported PBR texture maps | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/material-toolkit/ |
@@ -63,7 +59,7 @@ others.
 
 - **Setup only:** install and verify each component without starting a paid
   generation.
-- **Generation only:** use StudioTwin MCP; do not connect to or inspect Blender.
+- **Generation only:** use StudioTwin Web MCP; do not connect to or inspect Blender.
 - **Import an existing StudioTwin asset:** resolve the asset, download the
   supported output files, then use Blender MCP to call the matching importer.
 - **Generate and import:** complete and verify generation first, then download
@@ -71,9 +67,9 @@ others.
 - **Ordinary Blender work:** this connector does not apply unless the request
   involves StudioTwin generation or StudioTwin assets.
 
-Motion and animation may be generated and downloaded through StudioTwin, but
-the Blender extension has no motion importer. Do not improvise one through
-general Blender Python under this connector.
+Motion and animation generation and download are available through Web MCP.
+StudioTwin Blender motion import is **in
+progress**. Do not attempt or improvise it until the live addon exposes it.
 
 ## Start every Blender-affecting session
 
@@ -85,9 +81,9 @@ Before the first Blender change:
 2. Inspect the current scene and relevant target objects or collections. Never
    assume the default empty scene.
 3. Confirm `bpy.app.background` is false.
-4. Discover the enabled StudioTwin extension module. Installed Blender
-   extensions are commonly namespaced; do not assume that bare
-   `import studiotwin` resolves the installed extension.
+4. Discover the enabled StudioTwin addon module. Addon modules installed through
+   Blender Extensions are commonly namespaced; do not assume that bare
+   `import studiotwin` resolves the installed addon.
 5. Confirm Blender and the agent can read the same absolute local paths.
 
 Do not perform these Blender checks for a generation-only request.
@@ -104,12 +100,12 @@ https://www.blender.org/lab/mcp-server/.
 
 ## Operating workflow
 
-1. **Discover the hosted tools.** Read the live StudioTwin definitions for the
+1. **Discover the Web MCP tools.** Read the live StudioTwin definitions for the
    requested generation, cost, upload, job-status, and asset-resolution
    operations. Do not copy generation names or schemas from this guide.
 2. **Prepare inputs.** Classify each supplied value as a scalar, local file or
    attachment, existing StudioTwin asset, or external URL. Never pass a local
-   path to the hosted MCP. Upload local inputs through the live upload lifecycle
+   path to Web MCP. Upload local inputs through the live upload lifecycle
    and use the asset reference form required by the target generation schema.
    Keep the upload-session UUID separate from the completed asset UUID. When the
    live schema requires an owned-asset reference, use its canonical
@@ -135,7 +131,7 @@ https://www.blender.org/lab/mcp-server/.
    not merely the generation operation's name. Import only when the user's
    request includes a Blender scene change.
 7. **Call one importer.** Use the official Blender MCP
-   `execute_blender_code` tool, discover the enabled extension namespace, and
+   `execute_blender_code` tool, discover the enabled addon namespace, and
    invoke exactly one StudioTwin importer in that call. Assign its
    JSON-serializable return value to the global `result` variable.
 8. **Verify structurally.** Read the importer result and confirm the returned
@@ -161,7 +157,7 @@ import after correcting the specific failure.
 Material map keys are exactly `albedo`, `heightmap`, `normals`, `roughness`,
 and `metalness`. Omit unavailable maps. Do not silently substitute other names.
 
-Import the enabled extension module before the operation:
+Import the enabled addon module before the operation:
 
 ```python
 import bpy
@@ -180,7 +176,7 @@ module_name = next(
     None,
 )
 if module_name is None:
-    raise RuntimeError("The StudioTwin Blender extension is not enabled")
+    raise RuntimeError("The StudioTwin Blender addon is not enabled")
 
 studiotwin = importlib.import_module(module_name)
 ```
