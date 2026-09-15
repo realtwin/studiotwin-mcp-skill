@@ -20,19 +20,22 @@ Do not silently turn optional creative choices into requirements. When a key amb
 
 Clarify visual setting, time of day, lighting, weather, horizon and ground behavior, spatial scale, and whether the result must support a specific world-building stage. For image-conditioned work, identify what should be preserved versus expanded or transformed.
 
-Verify the environment result before deriving world geometry or placing it in a level.
+Verify the resolved or downloaded environment output before using it downstream.
+Without an editor, Web MCP verification stops at the returned asset metadata and
+downloaded file. Inspect or place editor artifacts only through the active host
+connector and only when that mutation is authorized.
 
 ## Materials
 
-Identify surface type, age or wear, scale, finish, and the source image or texture role. Check whether the workflow expects a single source, a texture set, or a textual brief. After import, verify the actual map roles and material assets.
+Identify surface type, age or wear, scale, finish, and the source image or texture role. Check whether the workflow expects a single source, a texture set, or a textual brief. Verify resolved or downloaded map roles first. After an authorized import, inspect material artifacts only in the active host.
 
 ## Meshes
 
-Choose a source image with a clear subject and useful silhouette. State what geometry matters, expected orientation and scale, and whether materials or textures are required. Inspect the imported mesh in Unreal before using it downstream.
+Choose a source image with a clear subject and useful silhouette. State what geometry matters, expected orientation and scale, and whether materials or textures are required. Web MCP verifies the resolved or downloaded output without an editor. After an authorized import, inspect Blender artifacts through Blender MCP or Unreal assets through Unreal MCP before using them downstream.
 
 ## Audio
 
-Describe the sound event, environment, intensity, duration, perspective, and looping behavior when relevant. Verify the imported asset and audition it before declaring the result suitable.
+Describe the sound event, environment, intensity, duration, perspective, and looping behavior when relevant. Verify the resolved or downloaded output first. Audition an imported asset only in the active host and only when authorized.
 
 ## Motion
 

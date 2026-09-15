@@ -7,15 +7,32 @@ Most StudioTwin generation workflows are asynchronous.
 1. Inspect the live submission definition.
 2. Confirm inputs and authorization.
 3. Submit exactly once.
-4. Capture the job identifier verbatim.
+4. Capture every returned identifier verbatim. If the response contains a
+   submission `jobId` and a separate status, generation, or output `uuid`, label
+   and preserve them separately.
 5. Poll the existing job at the interval recommended by the live response or definition.
 6. While running, wait rather than resubmit.
 7. On success, inspect warnings, notes, and imported-artifact metadata.
 8. On failure, preserve the error and job identifier for diagnosis.
 
-A timeout, disconnect, or malformed transport response does not prove that submission failed. Attempt to recover the original identifier or inspect status before considering another paid call.
+A timeout, disconnect, or malformed transport response does not prove that submission failed. Attempt to recover the original submission identifier or inspect status before considering another paid call.
+
+Treat the live status vocabulary as authoritative. A successful terminal state
+may be reported as `done`, `complete`, or another connector-specific value; do
+not hard-code one capitalization or spelling. Preserve opaque failures exactly
+when the service supplies no diagnostic code or message, and do not infer a
+provider cause.
 
 Do not promise a runtime unless the live tool or service supplies one. A polling interval is not an estimated completion time.
+
+## Downloading remote outputs
+
+Job-status responses may contain presigned URLs. Parse them internally and
+redact URL and URI fields before emitting logs, forwarding tool results, or
+reporting status. Prefer a connector-native download operation that accepts a
+job or asset identifier. If a shell transfer is unavoidable, use a hidden
+non-echo path and never pass the signed URL through visible PTY input or output.
+An expired URL should trigger asset resolution again, not paid regeneration.
 
 ## Imported content
 
@@ -51,7 +68,7 @@ Validate required frame rate, frame count or span, trajectory ranges, skeleton c
 Keep a concise execution record containing:
 
 - discovered operation used;
-- job identifier;
+- submission job id and any distinct status, generation, or output identifiers;
 - source UE paths, local paths, or URIs;
 - output UE object paths and roles;
 - mutations made;
