@@ -1,6 +1,6 @@
 ---
 name: "studiotwin-mcp"
-description: "Operate StudioTwin's cloud asset-generation platform — environment maps, PBR materials, 3D meshes, character motion, sound effects — through MCP. Covers the live Unreal Engine, Web MCP, and Blender addon workflows, plus onboarding a user into StudioTwin. Use when generating assets for Unreal, Blender, or 3D-web/virtual-production work."
+description: "Operate StudioTwin's cloud asset-generation platform — Concepts, environment maps, PBR materials, 3D meshes, character motion, sound effects — through MCP. Covers the live Unreal Engine, Web MCP, and Blender addon workflows, plus onboarding a user into StudioTwin. Use when generating assets for Unreal, Blender, or 3D-web/virtual-production work."
 author: RealTwin Solutions Inc.
 version: "1.3.0"
 license: MIT
@@ -23,6 +23,8 @@ StudioTwin reaches the same cloud generation backend through different MCP surfa
 Regardless of connector, the operating policy below applies. If the host exposes a StudioTwin surface not yet documented here, connect, discover live tools, and treat those definitions as authoritative.
 
 **Asset reuse across hosts.** StudioTwin generation and import are separable: a generation produces an **asset** with a uuid. Reuse that asset rather than regenerating it merely to change hosts. A connector may import by asset id or resolve and download the asset for a local importer; follow the live connector contract.
+
+**Concept routing.** A **Concept** is a StudioTwin domain object with its own lifecycle, assets, active-asset state, and operations. When the user needs to edit a Concept asset or preserve a consistent Concept reference across iterations or downstream work, prefer the discovered Concept tools over simple image tools. Do not treat a Concept as an image or conflate it with ConceptLab, the visual workflow for creating and editing Concepts. Follow the live definitions and [capability-selection guidance](references/capabilities.md).
 
 ## Onboarding a new user
 

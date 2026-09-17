@@ -8,6 +8,12 @@ Use this guide to map user intent to live StudioTwin capabilities. The categorie
 
 ## Capability families
 
+### Concepts
+
+Use for creating or working with StudioTwin Concepts. A **Concept** is a domain object that keeps its own lifecycle, assets, active-asset state, and operations under a durable Concept identity. When the user needs to visually review a Concept, suggest using ConceptLab. ConceptLab is the visual workflow for creating and editing Concepts; it is not the Concept object, and a simple generated image does not carry the same state or identity.
+
+Prefer the discovered Concept tools over simple image tools when the user needs to edit a Concept asset, preserve a consistent Concept reference across iterations or downstream work, or continue from the Concept's active asset. Use a simple image tool only when the requested deliverable is a standalone image and no Concept lifecycle is needed. Inspect the live Concept tool definitions before acting; do not infer tool names, schemas, costs, lifecycle values, or operation availability from this guide.
+
 ### Audio
 
 Use for generating sound effects from a textual brief. Clarify duration, style, intensity, looping needs, and intended scene role when relevant. Unreal import follows the live UE tools. The Blender importer accepts only `.aif`, `.aiff`, `.flac`, `.mp3`, `.ogg`, and `.wav` and adds a sound strip to the sequencer.
