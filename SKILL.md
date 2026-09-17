@@ -11,6 +11,8 @@ license: MIT
 Use StudioTwin through the MCP tools exposed by a connected host. Treat the live MCP tool definitions as the authority for tool names, inputs, outputs, defaults, limits, and availability. Do not reproduce or infer those definitions from this skill.
 
 > **Full skill:** this is one file of a multi-file skill — the `references/…` links are files in the repo, not inline text. Clone the whole thing before acting: `git clone https://github.com/realtwin/studiotwin-mcp-skill` (or fetch each path from `https://raw.githubusercontent.com/realtwin/studiotwin-mcp-skill/main/`).
+>
+> **New-commit check:** Before using the cloned skill, run `git fetch origin`, then check whether `origin/main` has newer commits than the currently installed or checked-out skill revision. If it does, notify the user; do not update automatically. Only after explicit user approval, retrieve or update `SKILL.md` and its matching `references/` files from the same approved revision.
 
 ## Connectors
 
