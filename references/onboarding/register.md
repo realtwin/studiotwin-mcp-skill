@@ -1,79 +1,31 @@
-# Onboarding: account & API key
+# Onboarding: StudioTwin account and API key
 
-Use this when a user reaches StudioTwin **through the skill** without an account
-or API key yet. Guide them; never ask them to paste the key into chat, logs, or
-source control. The user performs these steps — the agent explains and verifies
-only what the connector reports.
+Use this shared first step before configuring any StudioTwin connector. The user performs account and credential actions; the agent guides them and verifies only what a connected surface reports.
 
-## First, place your operator
+## Register and select the workspace
 
-If the live tools didn't tell you where you are, work it out *with* the operator
-before anything else — a short, natural exchange, not an interrogation. You're
-trying to learn three things:
+Go to **[app.studiotwin.ai](https://app.studiotwin.ai)** and either sign in with Google or enter an email address and click **Continue**. No application form or waiting list is required.
 
-- **Where they're working** — Unreal Engine, Blender, or somewhere else / nothing
-  set up yet. This decides which connector you hand off to.
-- **Whether they already have a StudioTwin account and an `st_` API key.** If not,
-  start at step 1 below.
-- **For Unreal:** is the StudioTwin plugin installed and enabled, and what version?
-  MCP needs `3.0.0`+ (older builds are toolkit-only, no MCP — see [plugins.md](plugins.md)).
-  Is the Unreal MCP server running? (see [../setup.md](../setup.md))
+Before creating a key, confirm the dashboard shows the intended workspace or organization. API keys belong to that organization, so select the one that should own the connector and its usage.
 
-Their answers tell you which steps they still need and which connector fits. Ask
-plainly, one thing at a time, and verify only what the connector actually reports
-back — take nothing on faith.
+## Create an API key
 
-## 1. Create an account
-
-Go to **[app.studiotwin.ai](https://app.studiotwin.ai)** and either:
-
-- **Sign in with Google**, or
-- enter an **email address** and click **Continue**.
-
-No application form, no waiting list.
-
-## 2. Create an API key
-
-From the dashboard **[Get Started](https://app.studiotwin.ai/dashboard/get-started/)**
-page (also reachable from the sidebar and the Overview banner), or the
-**[API Keys](https://app.studiotwin.ai/dashboard/api-keys)** page:
+From dashboard **[Get Started](https://app.studiotwin.ai/dashboard/get-started/)** or **[API Keys](https://app.studiotwin.ai/dashboard/api-keys)**:
 
 1. Click **+ Create key**.
-2. Give it a **Name** (e.g. the machine or project — one key per machine/project
-   is recommended so a single key can be suspended without disrupting others).
-3. Optionally add a description, then **+ Create key**.
-4. **Copy the secret immediately — it is shown only once and cannot be retrieved
-   again.** Keys begin with `st_` and belong to your organization.
+2. Give it a name. One key per machine or project is recommended so one key can be suspended without disrupting others.
+3. Optionally add a description, then click **+ Create key**.
+4. Copy the secret immediately. It is shown only once and cannot be retrieved again. StudioTwin API keys begin with `st_`.
 
-Docs: https://docs.studiotwin.ai/docs/dashboard/pages/api-keys
+The public [API Keys guide](https://docs.studiotwin.ai/docs/dashboard/pages/api-keys) is authoritative for the current dashboard flow.
 
-## 3. Connect the key to the connector
+## Protect and verify the key
 
-- **Unreal Engine:** install the plugin (see [plugins.md](plugins.md)), then
-  **Edit → Project Settings → Plugins → StudioTwin**, paste the key into **Api
-  Key**, and leave **Api Endpoint Url** empty. The key is validated there, so a
-  mistyped/inactive key is flagged immediately. Watch for a trailing space from
-  copying.
-- **Web / other MCP connectors:** provide the `st_` key via the MCP server's
-  env/config, never inline. (See [../connectors/web-mcp.md](../connectors/web-mcp.md);
-  transport still to be confirmed.)
+- Never ask the user to paste the key into chat.
+- Never place it in logs, source control, shared documents, tool arguments, Blender, or the skill.
+- Store it only through the selected connector's documented credential mechanism.
+- Watch for leading or trailing whitespace after copying.
+- Suspend or delete a leaked key from the API Keys page. Suspension is reversible; deletion is permanent.
+- If rejected, confirm the key begins with `st_`, is active, belongs to the intended organization, and contains no copied whitespace.
 
-## 4. Verify
-
-- **UE:** open the **Tools** menu — a **STUDIOTWIN** section should list the
-  toolkits (Audio, Environment, Material, Mesh, Motion). If it is missing, the
-  plugin is likely installed but not enabled (Edit → Plugins → enable → Restart).
-- A quick end-to-end check: **Tools → Motion Toolkit → Text to Motion** with a
-  short prompt (e.g. "A person is walking forward hastily"). It needs nothing in
-  the project (the plugin ships its own skeletal mesh) and confirms the full cloud
-  round-trip. It costs credits (see [credits.md](credits.md)).
-
-If a key is rejected: check for whitespace, confirm the key is **Active** (not
-suspended) on the API Keys page, confirm it belongs to the expected organization,
-and confirm the endpoint field is empty.
-
-## Key hygiene (tell the user)
-
-- Never commit keys to public repos, shared docs, or logs.
-- One key per machine/project; suspend or delete a leaked key from the API Keys
-  page (suspend is reversible; delete is permanent).
+Continue with the connector-specific setup selected in [../setup.md](../setup.md). For credits and cost expectations, read [credits.md](credits.md).

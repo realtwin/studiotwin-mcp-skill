@@ -1,41 +1,51 @@
 # Capability selection
 
-Use this guide to map user intent to live UE MCP capabilities. The categories are stable orientation, not a tool catalog. Discover the current tool names and definitions at runtime.
+Use this guide to map user intent to live StudioTwin capabilities. The categories are stable orientation, not a tool catalog. Discover the current tool names and definitions at runtime, then follow the selected host connector for its import and mutation contract:
+
+- [Unreal Engine](connectors/ue-mcp.md)
+- [Blender](connectors/blender-mcp.md)
+- [Web / no DCC](connectors/web-mcp.md)
 
 ## Capability families
 
+### Concepts
+
+Use for creating or working with StudioTwin Concepts. A **Concept** is a domain object that keeps its own lifecycle, assets, active-asset state, and operations under a durable Concept identity. When the user needs to visually review a Concept, suggest using ConceptLab. ConceptLab is the visual workflow for creating and editing Concepts; it is not the Concept object, and a simple generated image does not carry the same state or identity.
+
+Prefer the discovered Concept tools over simple image tools when the user needs to edit a Concept asset, preserve a consistent Concept reference across iterations or downstream work, or continue from the Concept's active asset. Use a simple image tool only when the requested deliverable is a standalone image and no Concept lifecycle is needed. Inspect the live Concept tool definitions before acting; do not infer tool names, schemas, costs, lifecycle values, or operation availability from this guide.
+
 ### Audio
 
-Use for generating and importing sound effects from a textual brief. Clarify duration, style, intensity, looping needs, and intended scene role when relevant.
+Use for generating sound effects from a textual brief. Clarify duration, style, intensity, looping needs, and intended scene role when relevant. Unreal import follows the live UE tools. The Blender importer accepts only `.aif`, `.aiff`, `.flac`, `.mp3`, `.ogg`, and `.wav` and adds a sound strip to the sequencer.
 
 ### Environments and worlds
 
-Use for generating environments from text or images, expanding or increasing environment-map resolution, deriving world data or geometry from an environment, and placing resulting world content into the current level.
+Use for generating environments from text or images, expanding or increasing environment-map resolution, and deriving world data or geometry from an environment. Unreal may also place resulting world content into the current level. The Blender importer applies only `.hdr` and `.png` environment maps.
 
-Treat generation, world derivation, and level placement as separate stages. Confirm before the placement stage because it mutates the open level.
+Treat generation, world derivation, download, import, and host-scene placement as separate stages. Confirm before any stage that mutates an open level or Blender scene.
 
 ### Materials
 
-Use for deriving PBR texture sets from source textures, images, or text and for creating Unreal material assets or instances from the results.
+Use for deriving PBR texture sets from source textures, images, or text. Unreal can create material assets or instances through its live tools. Blender can create a new, unassigned material from supported `.hdr`, `.jpeg`, `.jpg`, `.png`, `.tif`, and `.tiff` maps with the exact keys `albedo`, `heightmap`, `normals`, `roughness`, and `metalness`.
 
-Verify which maps and UE assets were actually produced. Do not assume every advertised material role exists when an import completes.
+Verify which maps and host assets were actually produced. Do not assume every advertised material role exists when an import completes.
 
 ### Meshes
 
-Use for image-driven 3D generation and import.
+Use for image-driven 3D generation and import. The Blender importer accepts only `.glb`; Unreal import follows the live UE tools.
 
-If StudioTwin UE MCP does not provide a tool to generate the source image required by this workflow, suggest the following alternative steps:
+If the selected StudioTwin connector does not provide a tool to generate the required source image, obtain one separately. For Unreal, use this sequence:
 
 1. **User:** Provide the source image. OR **Agent:** Generate an image with any other tool based on user's description.
 2. **User or agent:** Import the image into the Unreal project using an available Unreal import workflow.
 3. **Agent:** Verify the imported image asset and its UE object path.
 4. **Agent:** Use that project asset as the source for the discovered StudioTwin mesh tool.
 
-After generation, verify imported object paths, mesh class, materials, textures, scale, orientation, and missing roles.
+For hosted generation, upload a local source image through the live upload lifecycle rather than passing its path to the service. After generation and any authorized import, verify UE object paths and classes or Blender object and mesh datablocks, plus materials, textures, scale, orientation, and missing roles as applicable.
 
 ### Motion and animation
 
-Use for trajectory-driven or text-driven motion generation, motion modification or stitching, importing animation data, retargeting where supported, and creating trajectory-control sequences.
+Use for trajectory-driven or text-driven motion generation, motion modification or stitching, importing animation data, retargeting where supported, and creating trajectory-control sequences in Unreal. Web MCP supports motion generation and download. StudioTwin Blender motion import is **in progress**; preserve and report generated motion outputs, and do not attempt or improvise Blender import until the live addon exposes it.
 
 Motion workflows may impose strict frame-rate, frame-span, range, skeleton, and retargeting constraints. Read the live definitions and runtime validation rather than maintaining a second static contract here.
 
@@ -45,7 +55,7 @@ Use the discovered polling capability for asynchronous operations. Poll the iden
 
 ## Selection rules
 
-1. Prefer the capability that directly produces the requested UE deliverable.
+1. Prefer the capability that directly produces the requested host deliverable.
 2. Reuse an existing acceptable asset instead of generating a replacement.
 3. Separate paid generation from free/local processing.
 4. Separate content creation from placement, sequence creation, saving, and rendering.
