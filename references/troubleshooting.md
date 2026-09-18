@@ -127,6 +127,26 @@ as authoritative (`done`, `complete`, and other values may be valid).
 When responses contain multiple identifiers, label submission `jobId` separately
 from status, generation, or output `uuid` values.
 
+### The installed skill appears out of sync
+
+Live MCP definitions remain authoritative. If the installed skill guidance appears
+out of sync with the tools advertised or exposed by the connected StudioTwin MCP:
+
+1. Complete the relevant connector and tool-availability checks first. A missing
+   tool may reflect the connector, configuration, plugin version, account, or host
+   capabilities; updating the skill does not guarantee that the tool is available.
+2. Determine whether the skill is npx-managed or a legacy Git clone. Keep the
+   original installation method; do not switch methods automatically.
+3. For an npx-managed installation, run
+   `npx --yes skills@latest update studiotwin-mcp` with the matching `--project` or
+   `--global` scope. For a legacy Git clone, confirm that the worktree is safe to
+   update, record its revision, run `git fetch origin`, then run
+   `git pull --ff-only origin main`.
+4. Ensure the updated `SKILL.md` and `references/` directory remain installed
+   together. Re-read the guidance, reconnect if needed, and retry live discovery.
+5. Notify the user if a newer revision was applied. Otherwise continue diagnosing
+   connector and tool availability from the live surface.
+
 ## Submission response is ambiguous
 
 Do not automatically submit again. Preserve the response and transport logs, look for a job or correlation identifier, reconnect if needed, and poll the original job when possible. Ask before making a second paid attempt.

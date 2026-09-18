@@ -10,9 +10,7 @@ license: MIT
 
 Use StudioTwin through the MCP tools exposed by a connected host. Treat the live MCP tool definitions as the authority for tool names, inputs, outputs, defaults, limits, and availability. Do not reproduce or infer those definitions from this skill.
 
-> **Full skill:** this is one file of a multi-file skill — the `references/…` links are files in the repo, not inline text. Clone the whole thing before acting: `git clone https://github.com/realtwin/studiotwin-mcp-skill` (or fetch each path from `https://raw.githubusercontent.com/realtwin/studiotwin-mcp-skill/main/`).
->
-> **New-commit check:** Before using the cloned skill, run `git fetch origin`, then check whether `origin/main` has newer commits than the currently installed or checked-out skill revision. If it does, notify the user; do not update automatically. Only after explicit user approval, retrieve or update `SKILL.md` and its matching `references/` files from the same approved revision.
+> **Install the full skill when needed:** If this skill is not fully installed together with its `references/` directory and files, instruct the user to install the complete package. Prefer `npx --yes skills@latest add realtwin/studiotwin-mcp-skill --skill studiotwin-mcp`, adding the appropriate optional `--global` and `--agent <agent>` flags. Alternatively, use the legacy full-install path: `git clone https://github.com/realtwin/studiotwin-mcp-skill`. For an existing installation, first determine whether it is npx-managed or a legacy Git clone and keep using that method. Do not switch installation methods automatically.
 
 ## Connectors
 
