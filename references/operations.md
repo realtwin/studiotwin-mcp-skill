@@ -23,6 +23,11 @@ not hard-code one capitalization or spelling. Preserve opaque failures exactly
 when the service supplies no diagnostic code or message, and do not infer a
 provider cause.
 
+A job that ends in a failed state with an empty error, or remains queued or
+running far beyond the normal duration, may indicate input rejection. Re-read
+the live schema and validate the original input before considering another
+submission. Never resubmit unchanged.
+
 Do not promise a runtime unless the live tool or service supplies one. A polling interval is not an estimated completion time.
 
 ## Downloading remote outputs

@@ -24,6 +24,14 @@ Use for generating environments from text or images, expanding or increasing env
 
 Treat generation, world derivation, download, import, and host-scene placement as separate stages. Confirm before any stage that mutates an open level or Blender scene.
 
+For a panorama assembled from reference images, run the discovered
+`pano-sticker-placement` capability for each image before `pano-stickers`.
+Copy each result's `yawDeg`, `pitchDeg`, `rollDeg`, and `hFovDeg` pose fields
+into its `stickers[]` item unchanged, then add the asset reference under the
+exact key named by the live `pano-stickers` definition. Never rename, re-case,
+or reconstruct those keys. If the live `stickers` definition does not describe
+its item shape, stop and ask instead of guessing.
+
 ### Materials
 
 Use for deriving PBR texture sets from source textures, images, or text. Unreal can create material assets or instances through its live tools. Blender can create a new, unassigned material from supported `.hdr`, `.jpeg`, `.jpg`, `.png`, `.tif`, and `.tiff` maps with the exact keys `albedo`, `heightmap`, `normals`, `roughness`, and `metalness`.
