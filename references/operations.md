@@ -24,7 +24,7 @@ when the service supplies no diagnostic code or message, and do not infer a
 provider cause.
 
 A job that ends in a failed state with an empty error, or remains queued or
-running far beyond the normal duration, may indicate input rejection. Re-read
+running for more than 1.5 hours, may indicate input rejection. Re-read
 the live schema and validate the original input before considering another
 submission. Never resubmit unchanged.
 
