@@ -84,13 +84,13 @@ Deliver OGG or MP3. Create or resume the `AudioContext` inside the first user ge
 ## Integration performance
 
 - Pre-compile materials of newly imported assets behind the loading screen (`renderer.compileAsync(scene, camera)`). Otherwise the first view of each new material stalls the frame.
-- Instance repeated props. When updating instance buffers, upload only the live range, and never issue a zero-length update range (WebGL2 treats it as "the whole buffer").
+- Instance repeated props. When updating instance buffers, upload only the live range, and never issue a zero-length update range (WebGL2 `bufferSubData` with length 0 copies from the offset to the end of the source array, which is the whole buffer when the range starts at 0).
 - Load the next section's assets before the camera reaches it.
 - Size assets per graphics tier: fewer instances, smaller textures and a lower pixel-ratio cap on mobile.
 
 ## Companion skill for visual quality
 
-This page covers only getting StudioTwin outputs into a three.js project. For the rendering around them (shadows, water, atmosphere, specular anti-aliasing, bloom, grading, and visual validation), install [Three.js Awesome Graphics Agent Skills](https://github.com/scottstts/Threejs-Awesome-Graphics-Agent-Skills) (MIT) alongside this skill, for example `npx threejs-awesome-graphics-agent-skills@latest install --agent claude-code`, and start from its `threejs-skill-router`.
+This page covers only getting StudioTwin outputs into a three.js project. For the rendering around them (shadows, water, atmosphere, specular anti-aliasing, bloom, grading, and visual validation), install [Three.js Awesome Graphics Agent Skills](https://github.com/scottstts/Threejs-Awesome-Graphics-Agent-Skills) (licensed `MIT AND GPL-3.0-only`; check its notices before redistributing any of its material) alongside this skill, for example `npx threejs-awesome-graphics-agent-skills@latest install --agent claude-code`, and start from its `threejs-skill-router`.
 
 ## Verification
 
