@@ -36,6 +36,8 @@ Do not hardcode tool names, schemas, costs, terminal-state spellings, or polling
 7. Redact API keys, upload credentials, cloud URIs, and presigned URLs from logs and reports.
 8. Verify downloaded files or resolved assets rather than treating a terminal job state as the complete deliverable.
 
+For three.js, WebGPU, or browser projects, continue with the [three.js destination guidance](../destinations/threejs.md).
+
 Motion generation and download are available through Web MCP. StudioTwin Blender motion import is **in progress**; do not attempt or improvise it until the live Blender addon exposes it.
 
 ## Blender delegation
