@@ -26,6 +26,8 @@ references/
     ue-mcp.md                         # UE runtime contract
     web-mcp.md                        # hosted Web MCP runtime contract
     blender-mcp.md                    # Blender orchestration and import behavior
+  destinations/
+    threejs.md                        # three.js and WebGPU browser delivery
   capabilities.md                    # map intent to capability family
   operations.md                      # async jobs, imports, Editor mutations
   content-guidance.md                # prompting and source preparation
