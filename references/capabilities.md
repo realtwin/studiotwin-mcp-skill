@@ -22,17 +22,31 @@ Use for generating sound effects from a textual brief. Clarify duration, style, 
 
 Use for generating environments from text or images, expanding or increasing environment-map resolution, and deriving world data or geometry from an environment. Unreal may also place resulting world content into the current level. The Blender importer applies only `.hdr` and `.png` environment maps.
 
+For three.js, WebGPU, or browser delivery, also follow the [three.js destination guidance](destinations/threejs.md).
+
 Treat generation, world derivation, download, import, and host-scene placement as separate stages. Confirm before any stage that mutates an open level or Blender scene.
+
+For a panorama assembled from reference images, run the discovered
+`pano-sticker-placement` capability for each image before `pano-stickers`.
+Copy each result's `yawDeg`, `pitchDeg`, `rollDeg`, and `hFovDeg` pose fields
+into its `stickers[]` item unchanged, then add the asset reference under the
+exact key named by the live `pano-stickers` definition. Never rename, re-case,
+or reconstruct those keys. If the live `stickers` definition does not describe
+its item shape, stop and ask instead of guessing.
 
 ### Materials
 
 Use for deriving PBR texture sets from source textures, images, or text. Unreal can create material assets or instances through its live tools. Blender can create a new, unassigned material from supported `.hdr`, `.jpeg`, `.jpg`, `.png`, `.tif`, and `.tiff` maps with the exact keys `albedo`, `heightmap`, `normals`, `roughness`, and `metalness`.
+
+For three.js, WebGPU, or browser delivery, also follow the [three.js destination guidance](destinations/threejs.md).
 
 Verify which maps and host assets were actually produced. Do not assume every advertised material role exists when an import completes.
 
 ### Meshes
 
 Use for image-driven 3D generation and import. The Blender importer accepts only `.glb`; Unreal import follows the live UE tools.
+
+For three.js, WebGPU, or browser delivery, also follow the [three.js destination guidance](destinations/threejs.md).
 
 If the selected StudioTwin connector does not provide a tool to generate the required source image, obtain one separately. For Unreal, use this sequence:
 
@@ -46,6 +60,8 @@ For hosted generation, upload a local source image through the live upload lifec
 ### Motion and animation
 
 Use for trajectory-driven or text-driven motion generation, motion modification or stitching, importing animation data, retargeting where supported, and creating trajectory-control sequences in Unreal. Web MCP supports motion generation and download. StudioTwin Blender motion import is **in progress**; preserve and report generated motion outputs, and do not attempt or improvise Blender import until the live addon exposes it.
+
+For three.js, WebGPU, or browser delivery, also follow the [three.js destination guidance](destinations/threejs.md).
 
 Motion workflows may impose strict frame-rate, frame-span, range, skeleton, and retargeting constraints. Read the live definitions and runtime validation rather than maintaining a second static contract here.
 

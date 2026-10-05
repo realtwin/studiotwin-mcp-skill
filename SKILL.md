@@ -2,7 +2,7 @@
 name: "studiotwin-mcp"
 description: "Operate StudioTwin's cloud asset-generation platform — Concepts, environment maps, PBR materials, 3D meshes, character motion, sound effects — through MCP. Covers the live Unreal Engine, Web MCP, and Blender addon workflows, plus onboarding a user into StudioTwin. Use when generating assets for Unreal, Blender, or 3D-web/virtual-production work."
 author: RealTwin Solutions Inc.
-version: "1.3.0"
+version: "1.4.0"
 license: MIT
 ---
 
@@ -18,6 +18,7 @@ StudioTwin reaches the same cloud generation backend through different MCP surfa
 
 - **Unreal Engine — live, primary.** StudioTwin UE plugin via Epic's Unreal MCP plugin, served locally inside the Editor. [references/connectors/ue-mcp.md](references/connectors/ue-mcp.md)
 - **Web — live.** Host-agnostic, editor-free access to the same cloud backend. It can operate standalone and is also required by Blender. [references/connectors/web-mcp.md](references/connectors/web-mcp.md)
+  - Building for three.js, WebGPU, or a browser: also read [references/destinations/threejs.md](references/destinations/threejs.md).
 - **Blender — released.** StudioTwin Web MCP handles cloud activity, official Blender MCP provides Editor access, and the StudioTwin Blender addon applies supported downloaded files. [references/connectors/blender-mcp.md](references/connectors/blender-mcp.md)
 
 Regardless of connector, the operating policy below applies. If the host exposes a StudioTwin surface not yet documented here, connect, discover live tools, and treat those definitions as authoritative.
@@ -40,6 +41,7 @@ If any account, credential, connection, plugin, or addon setup is incomplete, fo
 
 - StudioTwin toolkits behind Epic's Unreal MCP (`ModelContextProtocol`), local `127.0.0.1:8000/mcp`, tools that mutate an open project → **Unreal Engine**: [references/connectors/ue-mcp.md](references/connectors/ue-mcp.md).
 - `studiotwin_*` platform tools over remote MCP with no editor → **Web**: [references/connectors/web-mcp.md](references/connectors/web-mcp.md).
+- Building for three.js, WebGPU, or a browser after Web MCP → also read [references/destinations/threejs.md](references/destinations/threejs.md).
 - Hosted `studiotwin_*` platform tools plus official Blender MCP tools such as `execute_blender_code`, with Blender changes performed through the StudioTwin Blender addon → **Blender**: [references/connectors/blender-mcp.md](references/connectors/blender-mcp.md).
 - No StudioTwin tools, or any required layer is incomplete → route through [references/setup.md](references/setup.md). Do not assume Unreal.
 
