@@ -41,6 +41,9 @@ StudioTwin toolkit visible under **Tools → STUDIOTWIN** in the Editor:
 | Material    | PBR material from texture/image/text references           | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/material-toolkit/ |
 | Audio       | sound effects from a text brief                            | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/audio-toolkit/ |
 
+Video generation is not a UE plugin toolkit. For a video request, follow the
+[video workflow](../video.md) through Web MCP.
+
 Detailed capability-selection and prompting guidance: [../capabilities.md](../capabilities.md),
 [../content-guidance.md](../content-guidance.md). Job / import / mutation handling:
 [../operations.md](../operations.md).

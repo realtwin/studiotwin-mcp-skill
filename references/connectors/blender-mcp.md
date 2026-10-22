@@ -50,6 +50,7 @@ current addon importer can consume after the output is downloaded.
 | Mesh | 3D mesh from an image reference | Import supported `.glb` outputs | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/mesh-toolkit/ |
 | Material | PBR material from texture, image, or text references | Build a new unassigned material from supported PBR texture maps | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/material-toolkit/ |
 | Audio | Sound effects from a text brief | Add supported audio outputs to the Blender sequencer | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/audio-toolkit/ |
+| Video | MP4 clip from a control source and one concept frame | No addon importer; report the downloaded MP4 | [../video.md](../video.md) |
 
 Generation, downloading, Blender import, material assignment, scene placement,
 and rendering are separate stages. A request for one does not authorize the

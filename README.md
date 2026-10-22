@@ -1,6 +1,6 @@
 # studiotwin-mcp-skill
 
-An [AgentSkill](https://modelcontextprotocol.io) for operating **StudioTwin's** cloud asset-generation platform through MCP — animation, environments, meshes, materials, and audio for virtual production.
+An [AgentSkill](https://modelcontextprotocol.io) for operating **StudioTwin's** cloud asset-generation platform through MCP — animation, environments, meshes, materials, audio, and video for virtual production.
 
 The skill is deliberately **operating guidance, not a tool catalog**: live MCP tool definitions are always the authority for names, schemas, costs, and limits. It never hardcodes or guesses them.
 
@@ -28,6 +28,7 @@ references/
     blender-mcp.md                    # Blender orchestration and import behavior
   destinations/
     threejs.md                        # three.js and WebGPU browser delivery
+  video.md                           # video generation with one concept frame
   capabilities.md                    # map intent to capability family
   operations.md                      # async jobs, imports, Editor mutations
   content-guidance.md                # prompting and source preparation
