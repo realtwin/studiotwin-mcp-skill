@@ -21,7 +21,7 @@ The live tool list is authoritative. Expected operation families include:
 - submit generation and poll, list, or cancel owned jobs;
 - list and resolve owned assets;
 - create and complete an asset upload session; and
-- download generated environment, material, mesh, motion, and audio outputs through returned asset data.
+- download generated environment, material, mesh, motion, audio, and video outputs through returned asset data.
 
 Do not hardcode tool names, schemas, costs, terminal-state spellings, or polling intervals from this guide.
 
@@ -37,6 +37,8 @@ Do not hardcode tool names, schemas, costs, terminal-state spellings, or polling
 8. Verify downloaded files or resolved assets rather than treating a terminal job state as the complete deliverable.
 
 For three.js, WebGPU, or browser projects, continue with the [three.js destination guidance](../destinations/threejs.md).
+
+For video generation, follow the [video workflow](../video.md): choose the model, prepare one concept frame, and set an explicit frame count before estimating.
 
 Motion generation and download are available through Web MCP. StudioTwin Blender motion import is **in progress**; do not attempt or improvise it until the live Blender addon exposes it.
 
