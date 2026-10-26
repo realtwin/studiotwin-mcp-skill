@@ -1,6 +1,6 @@
-# Onboarding: StudioTwin Web MCP
+# Onboarding: StudioTwin Remote MCP
 
-**Status: live.** StudioTwin Web MCP can operate standalone and is also required for the Blender connector.
+**Status: live.** StudioTwin Remote MCP can operate standalone and is also required for the Blender connector.
 
 Public setup authority: https://docs.studiotwin.ai/docs/web-mcp
 
@@ -39,4 +39,4 @@ user to paste the key into chat.
 
 If authentication fails, check key status, organization, copied whitespace, and the exact `x-api-key` header placement.
 
-After discovery succeeds, use the [Web MCP runtime guide](../connectors/web-mcp.md). Blender users must next complete [Blender onboarding](blender.md).
+After discovery succeeds, use the [Remote MCP runtime guide](../connectors/remote-mcp.md). Blender users must next complete [Blender onboarding](blender.md).

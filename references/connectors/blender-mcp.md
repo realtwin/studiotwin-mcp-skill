@@ -1,7 +1,7 @@
 # Connector: Blender MCP
 
-**Status: released.** The workflow uses StudioTwin Web MCP, official Blender MCP,
-and the StudioTwin Blender addon. Web MCP can operate standalone; Blender
+**Status: released.** The workflow uses StudioTwin Remote MCP, official Blender MCP,
+and the StudioTwin Blender addon. Remote MCP can operate standalone; Blender
 depends on it.
 
 ## What it is
@@ -10,37 +10,37 @@ StudioTwin reaches Blender through four cooperating parts:
 
 | Component | Responsibility |
 | --- | --- |
-| StudioTwin Web MCP | Owns all StudioTwin cloud generation, uploads, cost estimates, jobs, asset resolution, and downloads. |
+| StudioTwin Remote MCP | Owns all StudioTwin cloud generation, uploads, cost estimates, jobs, asset resolution, and downloads. |
 | Agent | Orchestrates the live tools and securely transfers files between the hosted service and the local machine. |
 | Official Blender MCP | Runs Python in the open Blender process through `execute_blender_code`. |
 | StudioTwin Blender addon | Applies supported local files to the Blender scene through deterministic importer functions. |
 
 The StudioTwin Blender addon is **not** an MCP server. It performs no network
 requests, stores no API key, and does not manage generation jobs. It accepts
-local files only. Web MCP cannot read Blender's local paths,
+local files only. Remote MCP cannot read Blender's local paths,
 so local generation inputs must first be uploaded and generated outputs must be
 downloaded before the Blender import stage.
 
 ```text
 User intent
-  -> StudioTwin Web MCP (upload / generate / poll / resolve / download)
+  -> StudioTwin Remote MCP (upload / generate / poll / resolve / download)
   -> local downloaded files
   -> official Blender MCP (`execute_blender_code`)
   -> StudioTwin Blender addon importer
   -> Blender datablocks
 ```
 
-Connection setup is canonical in [Web MCP onboarding](../onboarding/web-mcp.md).
+Connection setup is canonical in [Remote MCP onboarding](../onboarding/remote-mcp.md).
 Official Blender MCP and StudioTwin Blender addon installation are in
-[Blender onboarding](../onboarding/blender.md). Web MCP runtime and asset
-lifecycle: [web-mcp.md](web-mcp.md).
+[Blender onboarding](../onboarding/blender.md). Remote MCP runtime and asset
+lifecycle: [remote-mcp.md](remote-mcp.md).
 If discovery, connection, download, or import fails, read the Blender sections
 in [../troubleshooting.md](../troubleshooting.md).
 
 ## Capability groups (toolkits)
 
 Stable orientation only — discover the live tools at runtime. These capability
-families belong to StudioTwin Web MCP; the Blender column describes what the
+families belong to StudioTwin Remote MCP; the Blender column describes what the
 current addon importer can consume after the output is downloaded.
 
 | Toolkit | What it does (image/text → asset) | Blender handling | Current StudioTwin docs (UE) |
@@ -59,7 +59,7 @@ others.
 
 - **Setup only:** install and verify each component without starting a paid
   generation.
-- **Generation only:** use StudioTwin Web MCP; do not connect to or inspect Blender.
+- **Generation only:** use StudioTwin Remote MCP; do not connect to or inspect Blender.
 - **Import an existing StudioTwin asset:** resolve the asset, download the
   supported output files, then use Blender MCP to call the matching importer.
 - **Generate and import:** complete and verify generation first, then download
@@ -67,7 +67,7 @@ others.
 - **Ordinary Blender work:** this connector does not apply unless the request
   involves StudioTwin generation or StudioTwin assets.
 
-Motion and animation generation and download are available through Web MCP.
+Motion and animation generation and download are available through Remote MCP.
 StudioTwin Blender motion import is **in
 progress**. Do not attempt or improvise it until the live addon exposes it.
 
@@ -100,12 +100,12 @@ https://www.blender.org/lab/mcp-server/.
 
 ## Operating workflow
 
-1. **Discover the Web MCP tools.** Read the live StudioTwin definitions for the
+1. **Discover the Remote MCP tools.** Read the live StudioTwin definitions for the
    requested generation, cost, upload, job-status, and asset-resolution
    operations. Do not copy generation names or schemas from this guide.
 2. **Prepare inputs.** Classify each supplied value as a scalar, local file or
    attachment, existing StudioTwin asset, or external URL. Never pass a local
-   path to Web MCP. Upload local inputs through the live upload lifecycle
+   path to Remote MCP. Upload local inputs through the live upload lifecycle
    and use the asset reference form required by the target generation schema.
    Keep the upload-session UUID separate from the completed asset UUID. When the
    live schema requires an owned-asset reference, use its canonical
