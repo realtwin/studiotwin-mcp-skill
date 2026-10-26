@@ -1,10 +1,10 @@
 # Onboarding: Blender
 
-**Status: released.** The workflow depends on StudioTwin Web MCP for all cloud generation, uploads, jobs, downloads, and asset activity; Web MCP can also operate standalone.
+**Status: released.** The workflow depends on StudioTwin Remote MCP for all cloud generation, uploads, jobs, downloads, and asset activity; Remote MCP can also operate standalone.
 
 Public setup authority: https://docs.studiotwin.ai/docs/blender-addon/mcp-setup
 
-Complete [registration and API-key creation](register.md), then [connect and verify Web MCP](web-mcp.md). Do not duplicate or improvise its endpoint, authentication, or client configuration here.
+Complete [registration and API-key creation](register.md), then [connect and verify Remote MCP](remote-mcp.md). Do not duplicate or improvise its endpoint, authentication, or client configuration here.
 
 When the target is an already-open interactive Blender scene, do not launch a
 second Blender process—including a headless or background process—for setup or
@@ -23,7 +23,7 @@ require the intended scene to report `background: false`.
 
 Official Blender MCP can execute LLM-generated Python without guards. Blender recommends a virtual machine or system without sensitive data. Do not use an untrusted scene, expose the bridge, or interpolate untrusted text into executable code.
 
-Setup is complete only when Web MCP and official Blender MCP both connect and Blender reports all four importer functions. Do not run a paid generation merely to test setup. Installing the StudioTwin Blender addon does not install official Blender MCP.
+Setup is complete only when Remote MCP and official Blender MCP both connect and Blender reports all four importer functions. Do not run a paid generation merely to test setup. Installing the StudioTwin Blender addon does not install official Blender MCP.
 
 StudioTwin Blender motion import is **in progress**. Do not attempt or improvise it until the live addon exposes it.
 

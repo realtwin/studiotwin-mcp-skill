@@ -4,7 +4,7 @@ Use this guide to map user intent to live StudioTwin capabilities. The categorie
 
 - [Unreal Engine](connectors/ue-mcp.md)
 - [Blender](connectors/blender-mcp.md)
-- [Web / no DCC](connectors/web-mcp.md)
+- [Remote MCP / no DCC](connectors/remote-mcp.md)
 
 ## Capability families
 
@@ -59,7 +59,7 @@ For hosted generation, upload a local source image through the live upload lifec
 
 ### Motion and animation
 
-Use for trajectory-driven or text-driven motion generation, motion modification or stitching, importing animation data, retargeting where supported, and creating trajectory-control sequences in Unreal. Web MCP supports motion generation and download. StudioTwin Blender motion import is **in progress**; preserve and report generated motion outputs, and do not attempt or improvise Blender import until the live addon exposes it.
+Use for trajectory-driven or text-driven motion generation, motion modification or stitching, importing animation data, retargeting where supported, and creating trajectory-control sequences in Unreal. Remote MCP supports motion generation and download. StudioTwin Blender motion import is **in progress**; preserve and report generated motion outputs, and do not attempt or improvise Blender import until the live addon exposes it.
 
 For three.js, WebGPU, or browser delivery, also follow the [three.js destination guidance](destinations/threejs.md).
 
