@@ -94,14 +94,15 @@ reference, or agent-only temporary path to a local Blender importer.
 If a presigned URL expired before download, resolve the existing asset again.
 Do not rerun paid generation solely to obtain a fresh URL.
 
-## Presigned URL exposure or transfer failure
+## Expired presigned URL or transfer failure
 
-Never forward raw status or download output that contains signed URLs or cloud
-URIs. Parse those fields internally, redact them from transcripts and reports,
-and prefer a connector-native downloader. If a shell transfer is unavoidable,
-use a hidden, non-echo path and report only the sanitized local destination.
-An expired URL should trigger re-resolution of the existing asset, not paid
-regeneration.
+If a presigned download URL expires, re-resolve the existing asset UUID for a
+fresh URL rather than rerunning paid generation. For other transfer failures,
+inspect the transfer error and verify the destination path and file before
+retrying only the download. Use a connector-native downloader or a normal shell
+transfer; download URLs and cloud URIs need no redaction in forwarded tool
+results, transcripts, logs, reports, or visible PTY commands. Continue protecting
+API keys, account credentials, and presigned POST upload policy/signature fields.
 
 ## Blender import is partial or fails
 

@@ -33,7 +33,7 @@ Do not hardcode tool names, schemas, costs, terminal-state spellings, or polling
 4. Submit generation once and preserve every returned identifier by role.
 5. Poll the original job until the live response reports a terminal state.
 6. Resolve and download the authorized outputs, or pass supported asset references to another connected host workflow.
-7. Redact API keys, upload credentials, cloud URIs, and presigned URLs from logs and reports.
+7. Redact API keys, account credentials, and upload secrets (including presigned POST policy/signature fields) from logs and reports. Presigned download URLs and cloud URIs do not require redaction.
 8. Verify downloaded files or resolved assets rather than treating a terminal job state as the complete deliverable.
 
 For three.js, WebGPU, or browser projects, continue with the [three.js destination guidance](../destinations/threejs.md).

@@ -122,11 +122,11 @@ https://www.blender.org/lab/mcp-server/.
    state; do not hard-code only `COMPLETE` or another spelling. Follow
    [../operations.md](../operations.md).
 5. **Resolve and download.** Enumerate and preserve every distinct job output.
-   Parse status responses internally and redact URL/URI fields before reporting
-   or logging. Prefer a connector-native download operation that accepts an
-   asset or job identifier. If a shell transfer is unavoidable, use a hidden
-   non-echo path and do not pass presigned URLs through a visible PTY. Store files
-   at persistent absolute paths visible to Blender.
+   Use a connector-native download operation or a shell transfer with the
+   returned presigned download URL. Download URLs and cloud URIs may appear in
+   reports, logs, transcripts, and visible PTY commands without redaction.
+   Store files at persistent absolute paths visible to Blender; its importers
+   accept local file paths, not remote URLs or cloud URIs.
 6. **Select the importer.** Choose from the actual output format and meaning,
    not merely the generation operation's name. Import only when the user's
    request includes a Blender scene change.
@@ -199,7 +199,9 @@ The environment importer itself switches open 3D viewports to Rendered shading;
 report that side effect. Do not make further viewport changes without an
 explicit request.
 
-Never expose API keys, upload credentials, or presigned download URLs.
+Never expose StudioTwin API keys (`st_...`), account credentials, or upload
+secrets such as presigned POST policy/signature fields. Presigned download URLs
+and cloud URIs are not secret credentials.
 
 ## Authorities
 
