@@ -4,7 +4,7 @@
 
 ## Boundaries
 
-- Browser runtime code never calls StudioTwin MCP. It never embeds API keys, cloud URIs or presigned URLs. Presigned URLs expire and carry temporary credentials.
+- Browser runtime code never calls StudioTwin MCP or embeds API keys or account credentials. Shipped app code loads downloaded project files, not hardcoded presigned download URLs or cloud URIs. Presigned URLs expire, so they are unsuitable as durable runtime asset locations, not secret credentials in chat or logs.
 - Every output becomes a project file before the app uses it. Keep generation, download, optimisation and scene integration as separate stages.
 - Keep the StudioTwin asset id and job id alongside each file you ship, so the asset can be re-resolved later.
 - When an expired URL or a changed host requires the same asset again, re-resolve the existing asset. Do not regenerate it.

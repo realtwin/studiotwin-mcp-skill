@@ -102,7 +102,7 @@ Report:
 - warnings, missing artifacts, or partial success;
 - what was verified and what remains unverified.
 
-Never expose credentials, API keys, signed URLs, or other transient secrets.
+Never expose StudioTwin API keys (`st_...`), account credentials, or presigned POST upload policy/signature fields. Presigned download URLs and `s3://` / other cloud URIs are delivery links or asset locations, not secret credentials; they may appear in chat, tool results, transcripts, logs, reports, and visible PTY commands without redaction.
 
 ## Completion checklist
 
