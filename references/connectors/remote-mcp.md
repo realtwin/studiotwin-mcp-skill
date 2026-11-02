@@ -1,12 +1,12 @@
-# Connector: StudioTwin Web MCP
+# Connector: StudioTwin Remote MCP
 
-**Status: live.** This page owns the runtime contract and operations only. For endpoint, authentication, client connection, and no-cost discovery, follow [Web MCP onboarding](../onboarding/web-mcp.md).
+**Status: live.** This page owns the runtime contract and operations only. For endpoint, authentication, client connection, and no-cost discovery, follow [Remote MCP onboarding](../onboarding/remote-mcp.md).
 
-Web MCP is host-agnostic and editor-free. It can operate standalone and is also the StudioTwin cloud service required by the Blender connector.
+Remote MCP is host-agnostic and editor-free. It can operate standalone and is also the StudioTwin cloud service required by the Blender connector.
 
 ## Runtime contract
 
-For the connection contract, including transport and supported capabilities, follow [Web MCP onboarding](../onboarding/web-mcp.md).
+For the connection contract, including transport and supported capabilities, follow [Remote MCP onboarding](../onboarding/remote-mcp.md).
 
 - On initialization, the server identifies itself as StudioTwin and supplies baseline instructions.
 - Generation tools are derived from the platform's public function registry. Discover the live set and read each definition immediately before use.
@@ -33,16 +33,16 @@ Do not hardcode tool names, schemas, costs, terminal-state spellings, or polling
 4. Submit generation once and preserve every returned identifier by role.
 5. Poll the original job until the live response reports a terminal state.
 6. Resolve and download the authorized outputs, or pass supported asset references to another connected host workflow.
-7. Redact API keys, upload credentials, cloud URIs, and presigned URLs from logs and reports.
+7. Redact API keys, account credentials, and upload secrets (including presigned POST policy/signature fields) from logs and reports. Presigned download URLs and cloud URIs do not require redaction.
 8. Verify downloaded files or resolved assets rather than treating a terminal job state as the complete deliverable.
 
 For three.js, WebGPU, or browser projects, continue with the [three.js destination guidance](../destinations/threejs.md).
 
-Motion generation and download are available through Web MCP. StudioTwin Blender motion import is **in progress**; do not attempt or improvise it until the live Blender addon exposes it.
+Motion generation and download are available through Remote MCP. StudioTwin Blender motion import is **in progress**; do not attempt or improvise it until the live Blender addon exposes it.
 
 ## Blender delegation
 
-For Blender, Web MCP owns every StudioTwin cloud action: generation schemas, uploads, cost estimates, credit balance, job submission/status/cancellation, asset listing/resolution, and output download. Supported Blender import operations through official Blender MCP and the StudioTwin Blender addon begin only after files exist at persistent local paths. Setup verification and authorized read-only Blender inspection may occur earlier; neither imports nor mutates an output. Follow [Blender onboarding](../onboarding/blender.md) and the [Blender runtime guide](blender-mcp.md).
+For Blender, Remote MCP owns every StudioTwin cloud action: generation schemas, uploads, cost estimates, credit balance, job submission/status/cancellation, asset listing/resolution, and output download. Supported Blender import operations through official Blender MCP and the StudioTwin Blender addon begin only after files exist at persistent local paths. Setup verification and authorized read-only Blender inspection may occur earlier; neither imports nor mutates an output. Follow [Blender onboarding](../onboarding/blender.md) and the [Blender runtime guide](blender-mcp.md).
 
 ## Errors and credits
 
