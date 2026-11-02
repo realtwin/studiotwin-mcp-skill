@@ -6,22 +6,22 @@ Use this page only to choose and follow the correct setup path. Keep setup user-
 
 Choose one connector and complete every linked page in order:
 
-### Web / no DCC
+### Remote MCP / no DCC
 
 1. [Register and create the StudioTwin API key](onboarding/register.md).
-2. [Connect hosted StudioTwin Web MCP](onboarding/web-mcp.md).
-3. After connection succeeds, use the [Web MCP runtime guide](connectors/web-mcp.md).
+2. [Connect hosted StudioTwin Remote MCP](onboarding/remote-mcp.md).
+3. After connection succeeds, use the [Remote MCP runtime guide](connectors/remote-mcp.md).
 
 Setup is complete when the active client discovers the live StudioTwin tools without a paid generation.
 
 ### Blender
 
 1. [Register and create the StudioTwin API key](onboarding/register.md).
-2. [Connect hosted StudioTwin Web MCP](onboarding/web-mcp.md).
+2. [Connect hosted StudioTwin Remote MCP](onboarding/remote-mcp.md).
 3. [Install and verify official Blender MCP and the StudioTwin Blender addon](onboarding/blender.md).
 4. After both MCP connections and the addon are verified, use the [Blender MCP runtime guide](connectors/blender-mcp.md).
 
-Blender depends on Web MCP for StudioTwin cloud activity. Web MCP can also operate standalone.
+Blender depends on Remote MCP for StudioTwin cloud activity. Remote MCP can also operate standalone.
 
 ### Unreal Engine
 

@@ -1,6 +1,6 @@
 # Destination: three.js and WebGPU browser experiences
 
-**Status: guidance.** This page covers what happens *after* [Web MCP](../connectors/web-mcp.md) has produced and downloaded an output that a three.js (WebGL or WebGPU) project will load. It adds no MCP surface. Web MCP still owns every cloud action, and the operating policy in [`SKILL.md`](../../SKILL.md) still applies. Option names below describe *intent*. Confirm the exact field in the live tool definition before relying on one.
+**Status: guidance.** This page covers what happens *after* [Remote MCP](../connectors/remote-mcp.md) has produced and downloaded an output that a three.js (WebGL or WebGPU) project will load. It adds no MCP surface. Remote MCP still owns every cloud action, and the operating policy in [`SKILL.md`](../../SKILL.md) still applies. Option names below describe *intent*. Confirm the exact field in the live tool definition before relying on one.
 
 ## Boundaries
 
