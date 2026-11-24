@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "studiotwin": {
+      "type": "http",
+      "url": "https://api.studiotwin.ai/mcp",
+      "headers": {
+        "x-api-key": "${user_config.studiotwin_api_key}"
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "studiotwin-mcp",
+  "displayName": "StudioTwin MCP",
+  "version": "1.5.0",
+  "description": "StudioTwin Remote MCP connection plus the studiotwin-mcp skill: generate Concepts, environment maps, PBR materials, 3D meshes, character motion, and sound effects from your agent.",
+  "author": {
+    "name": "RealTwin Solutions Inc.",
+    "url": "https://studiotwin.ai"
+  },
+  "homepage": "https://docs.studiotwin.ai/docs/web-mcp",
+  "repository": "https://github.com/realtwin/studiotwin-mcp-skill",
+  "license": "MIT",
+  "keywords": ["studiotwin", "mcp", "3d", "asset-generation", "unreal-engine", "blender", "threejs", "virtual-production"],
+  "documentationUrl": "https://docs.studiotwin.ai/docs/web-mcp",
+  "privacyPolicyUrl": "https://www.studiotwin.ai/privacy/",
+  "termsOfServiceUrl": "https://www.studiotwin.ai/terms/",
+  "skills": "./",
+  "userConfig": {
+    "studiotwin_api_key": {
+      "type": "string",
+      "title": "StudioTwin API key",
+      "description": "Your StudioTwin st_... API key, sent only as the x-api-key header to https://api.studiotwin.ai/mcp. Create one at https://app.studiotwin.ai/dashboard/api-keys.",
+      "required": true,
+      "sensitive": true
+    }
+  }
+}

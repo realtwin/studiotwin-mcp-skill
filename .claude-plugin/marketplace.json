@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "studiotwin",
+  "owner": {
+    "name": "RealTwin Solutions Inc.",
+    "url": "https://studiotwin.ai"
+  },
+  "description": "StudioTwin plugins for Claude Code.",
+  "plugins": [
+    {
+      "name": "studiotwin-mcp",
+      "source": "./",
+      "description": "StudioTwin Remote MCP connection plus the studiotwin-mcp skill.",
+      "category": "design"
+    }
+  ]
+}
