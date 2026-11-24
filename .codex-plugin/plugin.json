@@ -1,0 +1,30 @@
+{
+  "name": "studiotwin-mcp",
+  "version": "1.5.0",
+  "description": "StudioTwin Remote MCP connection plus the studiotwin-mcp skill: generate Concepts, environment maps, PBR materials, 3D meshes, character motion, and sound effects from your agent.",
+  "author": {
+    "name": "RealTwin Solutions Inc.",
+    "url": "https://studiotwin.ai"
+  },
+  "homepage": "https://docs.studiotwin.ai/docs/web-mcp",
+  "repository": "https://github.com/realtwin/studiotwin-mcp-skill",
+  "license": "MIT",
+  "keywords": ["studiotwin", "mcp", "3d", "asset-generation", "unreal-engine", "blender", "threejs", "virtual-production"],
+  "skills": "./.",
+  "mcpServers": "./codex.mcp.json",
+  "interface": {
+    "displayName": "StudioTwin MCP",
+    "shortDescription": "Generate 3D, material, motion, and audio assets with StudioTwin",
+    "longDescription": "Connects Codex to the StudioTwin Remote MCP endpoint and bundles the studiotwin-mcp skill, which covers onboarding plus the Remote MCP, Unreal Engine, Blender, and three.js workflows. Paid generations follow the live tool definitions and need your authorization.",
+    "developerName": "RealTwin Solutions Inc.",
+    "category": "Creativity",
+    "capabilities": ["Read", "Write"],
+    "websiteURL": "https://studiotwin.ai",
+    "privacyPolicyURL": "https://www.studiotwin.ai/privacy/",
+    "termsOfServiceURL": "https://www.studiotwin.ai/terms/",
+    "defaultPrompt": [
+      "Check my StudioTwin connection and list the available tools",
+      "Generate a PBR material with StudioTwin"
+    ]
+  }
+}
