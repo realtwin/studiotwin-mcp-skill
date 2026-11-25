@@ -21,7 +21,7 @@ Do not silently turn optional creative choices into requirements. When a key amb
 Clarify visual setting, time of day, lighting, weather, horizon and ground behavior, spatial scale, and whether the result must support a specific world-building stage. For image-conditioned work, identify what should be preserved versus expanded or transformed.
 
 Verify the resolved or downloaded environment output before using it downstream.
-Without an editor, Web MCP verification stops at the returned asset metadata and
+Without an editor, Remote MCP verification stops at the returned asset metadata and
 downloaded file. Inspect or place editor artifacts only through the active host
 connector and only when that mutation is authorized.
 
@@ -31,7 +31,7 @@ Identify surface type, age or wear, scale, finish, and the source image or textu
 
 ## Meshes
 
-Choose a source image with a clear subject and useful silhouette. State what geometry matters, expected orientation and scale, and whether materials or textures are required. Web MCP verifies the resolved or downloaded output without an editor. After an authorized import, inspect Blender artifacts through Blender MCP or Unreal assets through Unreal MCP before using them downstream.
+Choose a source image with a clear subject and useful silhouette. State what geometry matters, expected orientation and scale, and whether materials or textures are required. Remote MCP verifies the resolved or downloaded output without an editor. After an authorized import, inspect Blender artifacts through Blender MCP or Unreal assets through Unreal MCP before using them downstream.
 
 ## Audio
 

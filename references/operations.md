@@ -32,12 +32,17 @@ Do not promise a runtime unless the live tool or service supplies one. A polling
 
 ## Downloading remote outputs
 
-Job-status responses may contain presigned URLs. Parse them internally and
-redact URL and URI fields before emitting logs, forwarding tool results, or
-reporting status. Prefer a connector-native download operation that accepts a
-job or asset identifier. If a shell transfer is unavoidable, use a hidden
-non-echo path and never pass the signed URL through visible PTY input or output.
-An expired URL should trigger asset resolution again, not paid regeneration.
+Job-status responses may contain short-lived presigned download URLs for private
+bucket outputs. Use them normally to download or preview outputs, through a
+connector-native operation or a shell transfer. These delivery links and
+`s3://` / other cloud URIs are not secret credentials: they may appear in chat,
+forwarded tool results, transcripts, logs, reports, and visible PTY commands
+without redaction or hidden-input handling.
+
+Download files to local disk before passing them to a local-only importer.
+If a download URL expires, re-resolve the existing asset UUID for a fresh URL;
+do not rerun paid generation. Continue protecting API keys, account credentials,
+and presigned POST upload policy/signature fields.
 
 ## Imported content
 
@@ -79,4 +84,6 @@ Keep a concise execution record containing:
 - mutations made;
 - warnings, partial results, and verification status.
 
-Exclude credentials and transient signed material.
+Exclude API keys, account credentials, and presigned POST upload policy/signature
+fields. Presigned download URLs and cloud URIs may be recorded without redaction;
+keep the asset UUID as the durable reference because download URLs expire.

@@ -12,19 +12,19 @@
 
 Do not guess missing server commands, ports, or package locations.
 
-## StudioTwin Web MCP is missing for Blender
+## StudioTwin Remote MCP is missing for Blender
 
-If official Blender MCP tools are present but no StudioTwin Web MCP tools appear,
+If official Blender MCP tools are present but no StudioTwin Remote MCP tools appear,
 the local Blender bridge is connected but cloud generation is not configured.
 
-1. Confirm the Web MCP server entry is present in the active MCP client's configuration.
+1. Confirm the Remote MCP server entry is present in the active MCP client's configuration.
 2. Confirm the API key is active and supplied through the client's secret or
    environment configuration, never through chat or Blender.
 3. Restart or reconnect the MCP client after configuration changes, then repeat
    live tool discovery.
 
 Do not treat Blender MCP tools as StudioTwin generation tools. Follow the
-canonical [Web MCP setup](onboarding/web-mcp.md), then the
+canonical [Remote MCP setup](onboarding/remote-mcp.md), then the
 [Blender setup](onboarding/blender.md).
 
 ## Official Blender MCP does not connect
@@ -94,14 +94,15 @@ reference, or agent-only temporary path to a local Blender importer.
 If a presigned URL expired before download, resolve the existing asset again.
 Do not rerun paid generation solely to obtain a fresh URL.
 
-## Presigned URL exposure or transfer failure
+## Expired presigned URL or transfer failure
 
-Never forward raw status or download output that contains signed URLs or cloud
-URIs. Parse those fields internally, redact them from transcripts and reports,
-and prefer a connector-native downloader. If a shell transfer is unavoidable,
-use a hidden, non-echo path and report only the sanitized local destination.
-An expired URL should trigger re-resolution of the existing asset, not paid
-regeneration.
+If a presigned download URL expires, re-resolve the existing asset UUID for a
+fresh URL rather than rerunning paid generation. For other transfer failures,
+inspect the transfer error and verify the destination path and file before
+retrying only the download. Use a connector-native downloader or a normal shell
+transfer; download URLs and cloud URIs need no redaction in forwarded tool
+results, transcripts, logs, reports, or visible PTY commands. Continue protecting
+API keys, account credentials, and presigned POST upload policy/signature fields.
 
 ## Blender import is partial or fails
 
@@ -166,7 +167,7 @@ partial outputs. Do not infer the provider cause.
 ## Job succeeded but assets are missing
 
 Treat this as partial success. Inspect returned notes, expected roles, and
-connector-specific destinations. For Web MCP, verify resolved asset metadata and
+connector-specific destinations. For Remote MCP, verify resolved asset metadata and
 downloaded files without assuming an editor import. For Blender, inspect Blender
 artifacts only when that read is authorized. **Unreal only:** inspect object
 paths, import destinations, and Unreal logs. Verify any successful outputs before
@@ -175,7 +176,7 @@ download needs correction.
 
 ## Paths are rejected
 
-Determine which reference type the live definition accepts: UE object path, local filesystem path, URI, or another connector-specific reference. Do not substitute a Web/cloud reference for a UE path unless explicitly supported.
+Determine which reference type the live definition accepts: UE object path, local filesystem path, URI, or another connector-specific reference. Do not substitute a Remote MCP or cloud reference for a UE path unless explicitly supported.
 
 ## Level or sequence changed unexpectedly
 
