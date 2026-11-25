@@ -42,8 +42,8 @@ Two functions are currently expected. Confirm each name and envelope in the live
 Decide the output size, fps, and frame count first, because the source must cover them.
 
 - **Frame count.** `numFrames` must be a value the live definition accepts (currently `8k+1`, such as 9, 121, or 241). Derive it from the requested duration and fps, round to an accepted value, and tell the user the resulting duration. For example, about 5 seconds at 24 fps is 121 frames.
-- **Coverage.** The source must contain at least `numFrames` frames at the output fps. A shorter source is rejected before generation and is not padded. A longer source is trimmed to `numFrames`.
-- **fps.** Leaving fps at its source-rate default uses the source's frame rate. An explicit value that differs from the source resamples it. Use one of the documented presets when you set it.
+- **Coverage.** The source must contain at least `numFrames` frames. A shorter source is rejected before generation and is not padded. A longer source is trimmed to `numFrames`.
+- **fps.** Leaving fps at its source-rate default uses the source's frame rate. When you set it, use one of the documented presets. Either way, read the resolved fps from the returned configuration and report it.
 - **Size.** Pick the output width and height from the live definition. The video functions fit the control source to that size. Confirm the source's aspect ratio matches the output so that nothing important falls outside the frame.
 - **Control type.** Match the control type to the source: raw for clay or previs layout, or depth, canny, or pose. The live definition describes how each is read, including the expected depth direction.
 
@@ -56,7 +56,7 @@ Decide the output size, fps, and frame count first, because the source must cove
 The concept frame should match the control source at the frame index you will use.
 
 1. **Pick the index.** Use `0`, the first frame, by default. The live definitions recommend it for the closest adherence to the concept look. Use a later index only when a specific moment must match, such as a mid-shot reveal. Then tell the user that index `0` remains the recommended path, and watch for warnings about drift.
-2. **Take the matching source frame.** Export the control source's colour or layout frame at that index, and upload it as an image. It becomes the layout input that fixes composition.
+2. **Take the matching source frame.** Export the control source's colour or layout frame at that index, and upload it as an image. It becomes the layout input that fixes composition. If the control source is a depth, canny, or pose pass, it has no such frame. Ask the user for the matching colour or layout frame at that index, or for an already-prepared image. Do not bind a depth, canny, or pose frame as the previs input.
 3. **Create or edit a ConceptLab `frame` Concept.** Bind the uploaded layout frame as the Frame's previs input, and optionally bind **at most one** style reference image. Then generate with an explicit size and layout kind, following the live `frame` type details. Inputs must be image assets you own. Bindings are revisioned, so pass the current revision the live details require.
 4. **Match the shape.** The concept frame's aspect ratio must match the video's width and height closely (currently within 1%). StudioTwin resizes the frame to the video size before conditioning. The Frame canvas has its own limits, so the frame may not be able to use the exact video size. 896×512, for example, is below the Frame minimum, so use a same-aspect canvas such as 1792×1024. Never resize, crop, or pad an image silently to make it fit.
 5. **Review before paying for video.** Suggest that the user reviews the frame in ConceptLab. For a targeted change, use the live Frame edit operation after the user says what should change. The `frame` Concept type takes no masks or regional prompts. Each generate or edit is a separate paid call.
