@@ -45,7 +45,7 @@ Incomplete setups always start at [references/setup.md](references/setup.md), wh
 
 ## Status
 
-The Unreal Engine, Remote MCP, and Blender setup routes are released and available. StudioTwin Blender motion import remains in progress.
+The Unreal Engine, Remote MCP, and Blender setup routes are released and available. StudioTwin Blender motion import remains in progress. Video generation runs through Remote MCP where the connected environment exposes it. Unreal Engine and Blender video support is upcoming.
 
 ## License
 

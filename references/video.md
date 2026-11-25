@@ -1,98 +1,95 @@
 # Video generation workflow
 
-**Status: guidance.** This page sequences a StudioTwin video generation: choose a model, prepare one concept frame, submit, and deliver the MP4. It adds no MCP surface. Video generation and its Concept frame step run through [Web MCP](connectors/web-mcp.md). The operating policy in [`SKILL.md`](../SKILL.md) still applies.
+**Status: guidance.** This page sequences a StudioTwin video generation through [Remote MCP](connectors/remote-mcp.md): inspect the live definitions, prepare the control source and one concept frame, upload or resolve inputs, estimate and authorize, then submit and deliver the MP4. It adds no MCP surface. The operating policy in [`SKILL.md`](../SKILL.md) and the job lifecycle in [operations](operations.md) still apply.
 
-The live MCP definition is the authority for function names, input fields, defaults, accepted values, limits, costs, and output shape. Names and limits below are orientation for choosing a path, not a schema. If a live definition differs from this page, follow the live definition and see [troubleshooting](troubleshooting.md#a-tool-differs-from-this-guide).
+The live MCP definitions are the authority for function names, fields, defaults, accepted values, limits, costs, and output shape. Names and limits below help you choose a path. They are not a schema. If a live definition differs from this page, follow the live definition and see [troubleshooting](troubleshooting.md#a-tool-differs-from-this-guide).
 
-## What a video generation is
+StudioTwin video support for Unreal Engine and Blender is upcoming. This page does not cover capture, preparation, generation, or import inside either host.
 
-A video generation turns a control source into an MP4 that follows a text prompt and one approved concept frame:
+## What a video generation needs
 
-- **Control source:** a layout, depth, canny, pose, or raw video, or an image sequence, that fixes motion and composition.
-- **Concept frame:** a single image showing how one moment of the clip should look. It is usually the active asset of a Concept of type `frame`, created in ConceptLab or through the Concept tools.
-- **Prompt:** the look, materials, and motion intent.
+- **Control source.** A control video or a StudioTwin image-sequence asset that fixes motion, camera, and composition. Supply exactly one.
+- **Concept frame.** One image that shows how a single moment of the clip should look. This is the `conceptFrame` input.
+- **Frame index.** The timeline position that the concept frame represents. This is `conceptFrameIdx`.
+- **Explicit frame count.** The `numFrames` input. It is required, it sets the cost, and it has no default.
+- **Prompt.** The look, material, and motion instruction.
 
-Each generation accepts one concept frame and its frame index. Do not try to pass a second frame, an end frame, or an array of frames. Do not describe ingredient sheets, multi-view concepts, 4K output, upscaling, or HDR output as video capabilities unless a live definition exposes them.
+Each generation takes one concept frame. Do not pass a second frame, an end frame, a reference sheet, or a list of images. Do not offer ingredients, multi-view input, 4K output, upscaling, or HDR video. The current video definitions do not expose them.
 
-## 1. Discover the live schema
+## 1. Discover and inspect
 
-1. Discover the live tools. Find the video generation functions, the Concept tools, and the estimate, upload, job, and asset operations.
-2. Read the full definition of each video function you might use. Note which fields are required, how each field is described, and the accepted values for frame count, size, and frame rate.
-3. Read the Concept tool definitions and confirm that `frame` is an accepted Concept type. If no `frame` type is available, do not substitute a different Concept type. Tell the user, then either use an approved image the user provides or stop.
+1. Discover the live tools. Identify the video generation functions, the ConceptLab Concept tools, and the cost estimate, upload, job, and asset operations.
+2. Read each candidate video definition in full. Note the required fields, the frame-count rule, the accepted sizes, the fps behavior, the control types, and the output fields.
+3. Read the ConceptLab type catalog and the type details for `frame`. They describe the Frame input roles, the canvas rules, and how each operation behaves.
 
-If no video function is discovered, video generation is unavailable on this surface. Do not improvise it through another tool.
+If no video function is discovered, video generation is unavailable on this connection. Report that. Do not improvise video through another tool. Video can be available on one StudioTwin environment before another, so check the connection you are using.
 
 ## 2. Choose the model
 
-The current video functions are expected to be discovered as follows. Confirm both the name and the envelope in the live definition:
+Two functions are currently expected. Confirm each name and envelope in the live definition before you use it:
 
 | Need | Expected function | Envelope to confirm live |
 | --- | --- | --- |
-| Most work: longer clips, layout-to-render, a choice of sizes and aspect ratios | `ltx25-video` (LTX-2.5) | Up to 721 frames; size presets in several aspect ratios |
-| Short clip driven tightly by a depth, canny, or pose pass | `ltx23-video-depth` (LTX-2.3 depth) | 896×512 only, up to 121 frames |
+| Most work: layout-to-render, longer clips, a choice of sizes and aspect ratios | `ltx25-video` (LTX-2.5) | 9 to 721 frames. Width and height in multiples of 64, with presets in several aspect ratios. |
+| A short clip driven by a depth, canny, or pose pass | `ltx23-video-depth` (LTX-2.3 depth) | Exactly 896×512. 9 to 121 frames. |
 
-Rules of thumb:
+- Default to LTX-2.5. It accepts raw clay or previs layout as well as depth, canny, and pose control.
+- Choose LTX-2.3 depth only when the shot fits its fixed size and frame range. Requests outside that envelope are rejected before dispatch. Do not submit them to probe the limit.
+- If a shot needs more frames or another size, use LTX-2.5. Do not split one shot into several paid generations without the user's agreement.
 
-- Default to LTX-2.5. It is the longform model, and it accepts raw layout video as well as depth, canny, or pose control.
-- Choose depth only when the user has, or wants, a depth-style control pass and the shot fits 896×512 and 121 frames. A depth field may accept a wider range than the model supports. Shapes or counts outside the supported envelope fail before dispatch, so do not submit them to probe the limit.
-- If the user needs a longer clip, a different size, or a different aspect ratio than depth supports, use LTX-2.5. Do not split a long shot into several depth calls without the user's agreement, because each call is a separate paid generation.
+## 3. Prepare the control source
 
-## 3. Create or edit the concept frame
+Decide the output size, fps, and frame count first, because the source must cover them.
 
-The concept frame should be a Concept of type `frame`. A Concept keeps the frame's lifecycle and active asset, so you can revise it and reuse the same identity; see [Concepts](capabilities.md#concepts). Follow the live Concept tool definitions for every field.
+- **Frame count.** `numFrames` must be a value the live definition accepts (currently `8k+1`, such as 9, 121, or 241). Derive it from the requested duration and fps, round to an accepted value, and tell the user the resulting duration. For example, about 5 seconds at 24 fps is 121 frames.
+- **Coverage.** The source must contain at least `numFrames` frames at the output fps. A shorter source is rejected before generation and is not padded. A longer source is trimmed to `numFrames`.
+- **fps.** Leaving fps at its source-rate default uses the source's frame rate. An explicit value that differs from the source resamples it. Use one of the documented presets when you set it.
+- **Size.** Pick the output width and height from the live definition. The video functions fit the control source to that size. Confirm the source's aspect ratio matches the output so that nothing important falls outside the frame.
+- **Control type.** Match the control type to the source: raw for clay or previs layout, or depth, canny, or pose. The live definition describes how each is read, including the expected depth direction.
 
-1. **Pick the anchor moment.** Recommended: index `0`, the first frame of the clip (see [Anchor recommendation](#anchor-recommendation)).
-2. **Prepare the layout source.** Use the control source's frame at that index, for example the first frame extracted from the layout video, so the concept frame matches the control composition. Upload a local file through the live upload lifecycle and keep the completed asset id.
-3. **Optionally add one style reference.** A `frame` Concept takes one layout source and at most one style reference image. Do not pass several references.
-4. **Match the size to the video.** Request a frame whose width and height equal the intended video width and height, in the size form the live definition accepts. If the returned frame is not that exact size, do not resize or crop it silently. Report the mismatch.
-5. **Generate, then review.** Estimate cost, confirm authorization, then create and generate the Concept. Suggest that the user review the frame visually in ConceptLab before spending credits on video.
-6. **Edit instead of regenerating.** For a targeted fix, use the live Concept edit operation on the active frame, with a mask where the definition supports one. Each edit is a new paid call. Edit only after the user has said what should change.
+**Control video.** Upload a local video through the Remote MCP upload lifecycle, then confirm the completed asset resolves as a video. The live definitions do not list accepted containers or codecs. If a file is rejected, report the error rather than converting it repeatedly.
 
-Use the frame Concept's active asset as the concept frame for the video. If the user supplies an approved image instead, upload it and use that asset, and explain that it will not carry Concept lifecycle state.
+**Image sequence.** The live definitions accept a StudioTwin `image_sequence` asset: a TAR archive that StudioTwin validates on upload completion, which requires the archive's ordered entries. The archive layout, frame naming, ordering, image format, and metadata are not published in the live definitions or the public StudioTwin docs. Do not assemble one from guesswork. Use an existing validated `image_sequence` asset or a control video. Otherwise, tell the user that sequence packaging is not yet publicly specified.
 
-## 4. Prepare and estimate the video request
+## 4. Prepare the concept frame
 
-Fill the inputs from the live definition. These fields shape this workflow:
+The concept frame should match the control source at the frame index you will use.
 
-- **`conceptFrame`:** the single approved frame asset from step 3.
-- **`conceptFrameIdx`:** the timeline index that the frame represents. Recommended `0`.
-- **`numFrames`:** always set this to an explicit value that the live definition accepts. Do not rely on a default, an omitted value, or the source length. The frame count sets the cost, so derive it from the user's requested duration and frame rate, then confirm that it is a value the definition accepts.
-- **Control source:** a control video or an image sequence, as the definition allows, and the matching control type.
+1. **Pick the index.** Use `0`, the first frame, by default. The live definitions recommend it for the closest adherence to the concept look. Use a later index only when a specific moment must match, such as a mid-shot reveal. Then tell the user that index `0` remains the recommended path, and watch for warnings about drift.
+2. **Take the matching source frame.** Export the control source's colour or layout frame at that index, and upload it as an image. It becomes the layout input that fixes composition.
+3. **Create or edit a ConceptLab `frame` Concept.** Bind the uploaded layout frame as the Frame's previs input, and optionally bind **at most one** style reference image. Then generate with an explicit size and layout kind, following the live `frame` type details. Inputs must be image assets you own. Bindings are revisioned, so pass the current revision the live details require.
+4. **Match the shape.** The concept frame's aspect ratio must match the video's width and height closely (currently within 1%). StudioTwin resizes the frame to the video size before conditioning. The Frame canvas has its own limits, so the frame may not be able to use the exact video size. 896×512, for example, is below the Frame minimum, so use a same-aspect canvas such as 1792×1024. Never resize, crop, or pad an image silently to make it fit.
+5. **Review before paying for video.** Suggest that the user reviews the frame in ConceptLab. For a targeted change, use the live Frame edit operation after the user says what should change. The `frame` Concept type takes no masks or regional prompts. Each generate or edit is a separate paid call.
 
-Check the control source before you submit. It must contain at least `numFrames` frames at the chosen rate. A source that is too short is rejected rather than padded. A longer source is trimmed to the requested count. Use the live definition's rules for width, height, and fps.
+**Already-prepared image.** If the user supplies an approved image, you can upload it and use that asset as the concept frame instead of creating a Concept. It must meet the same aspect-ratio rule. Explain that it carries no Concept lifecycle, history, or ConceptLab review.
 
-Run the live cost estimate with the exact inputs you will submit. State the cost and get authorization. If no estimate is available, say the cost is unknown before asking for authorization, as `SKILL.md` requires.
+**Concept versus image asset.** `conceptFrame` takes an image **asset**, not a Concept id. After the Frame Concept is approved, read the Concept and pass its **active output asset**. Do not pass its previs or style input, and do not pass the Concept id. Video inputs must be assets you own. If the approved frame belongs to another member's Concept, use the live ConceptLab reference operation to copy it into an asset you own. A standalone frame-restyle function may also be discovered. It returns only an image asset, with no Concept lifecycle. Use it only when the user wants a one-off image.
 
-### Anchor recommendation
+## 5. Upload or resolve the inputs
 
-Recommend index `0` and start-frame-only conditioning. In StudioTwin's internal evaluation, a single start frame produced cleaner clips than adding an end anchor: end anchors caused morphing and crossfades within a window. This is why the video functions accept one concept frame.
+Follow the Remote MCP [workflow](connectors/remote-mcp.md#workflow) for uploads. Keep the completed asset id separate from the upload-session id. Reuse assets that already exist rather than uploading them again. Pass each input in the reference form the live definition names: the control-sequence field documents `vpc::assets/<uuid>`. Before you estimate, resolve each input and confirm that its type, size, and frame count match the plan.
 
-The live definition may accept other indexes. Use a later index only when the user needs a specific moment to match the frame, for example a reveal mid-shot, and explain that index `0` is the recommended path.
+## 6. Estimate and authorize
 
-## 5. Submit, poll, resolve, download
+Run the live cost estimate with the exact inputs you will submit, including `numFrames`, size, control type, and the concept frame. Video cost scales with the frame count. If the estimate rejects the inputs, correct them. Do not submit to find out. State the estimate and get authorization for that one generation. If no estimate is available, say the cost is unknown before asking, as `SKILL.md` requires.
 
-Follow [operations](operations.md#asynchronous-generation):
+## 7. Submit, poll, download, and verify
 
-1. Submit exactly once, with the estimated inputs.
-2. Preserve every returned identifier by role, such as the submission job id and any output or asset uuid.
-3. Poll the original job at the interval recommended by the live response. Long clips can take a while. Do not resubmit because a job is still running or a transport response was ambiguous.
-4. On success, inspect warnings and the returned resolved configuration. Confirm that the frame count, size, fps, and concept frame index match the request.
-5. Resolve the output video asset and download it through the connector-native download operation. Redact presigned URLs, as [operations](operations.md#downloading-remote-outputs) describes. If a URL has expired, re-resolve the asset; do not regenerate.
-6. Verify the downloaded MP4: the file exists, is non-empty, and has the expected duration, frame count, and dimensions. Use a local probe such as `ffprobe` when one is available. Do not expect an audio track.
+Submit once and follow the [asynchronous generation](operations.md#asynchronous-generation) and [download](operations.md#downloading-remote-outputs) lifecycle. Then check the video-specific results:
 
-## Host destinations
+- Read the returned configuration and warnings. Confirm the delivered width and height, fps, frame count, control type, and concept frame index. A faster preview quality may deliver a smaller size than requested. The configuration reports both values.
+- Resolve and download the output video asset. If a download link expires, re-resolve the asset. Do not regenerate it.
+- Verify the file. It exists, is non-empty, and has the expected frame count, duration, and dimensions. Use a local probe such as `ffprobe` when one is available. Do not expect an audio track.
 
-- **Web / no DCC:** the deliverable is the resolved video asset and the downloaded MP4. Stop there unless the user asks for more.
-- **Blender:** Web MCP generates and downloads the video. The StudioTwin Blender addon has no video importer. Report the local MP4 path and asset id. Do not improvise a sequencer or texture import unless the user asks for ordinary Blender work, which is outside this skill.
-- **Unreal Engine:** the StudioTwin UE plugin toolkits do not include video generation. If the Unreal MCP surface shows no video tool, use Web MCP for the generation when it is connected and the user agrees, then report the downloaded MP4. Do not claim a StudioTwin Unreal video import.
-- **three.js / browser:** treat the MP4 as a project file, as the [three.js destination guidance](destinations/threejs.md#boundaries) describes. Never embed a presigned URL.
+For a browser project, treat the downloaded MP4 as a project file, as the [three.js destination guidance](destinations/threejs.md#boundaries) describes.
 
 ## Report
 
 Include the items `SKILL.md` requires, plus:
 
-- the model and function used, and why;
-- the concept frame's Concept id and active asset id, and the frame index used;
-- the explicit frame count, size, fps, and the estimated and charged cost where available;
+- the video function used, and why;
+- the Frame Concept id and the active asset id passed as the concept frame, or the uploaded image asset id, and the frame index;
+- the control source asset id and type;
+- the frame count, size, fps, and the estimated and charged cost where available;
 - the job id, output asset id, and local MP4 path;
 - what was verified in the file, and any warnings or mismatches.

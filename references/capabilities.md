@@ -67,7 +67,7 @@ Motion workflows may impose strict frame-rate, frame-span, range, skeleton, and 
 
 ### Video
 
-Use for generating an MP4 clip from a control video or image sequence, a prompt, and one concept frame, usually the active asset of a Concept of type `frame`. Web MCP supports video generation and download. The StudioTwin Blender addon and UE plugin do not import video; report the downloaded MP4 instead. Follow the [video workflow](video.md) to choose a model, prepare the concept frame, set an explicit frame count, and deliver the file.
+Use for generating an MP4 clip from a control video or image-sequence asset, a prompt, and one concept frame. The concept frame is usually the active output asset of a ConceptLab `frame` Concept. Video generation and download run through Remote MCP when the live tool list exposes the video functions. Unreal Engine and Blender video support is upcoming. Follow the [video workflow](video.md) to choose a model, prepare the control source and concept frame, set an explicit frame count, estimate, and verify the file.
 
 ### Job status
 
