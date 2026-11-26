@@ -8,7 +8,7 @@ StudioTwin video support for Unreal Engine and Blender is upcoming. This page do
 
 ## What a video generation needs
 
-- **Colour or layout control source.** A colour, clay, or previs render of the shot that fixes motion, camera, and composition. Supply it as a control video or as a StudioTwin image-sequence asset, exactly one of the two. This primary source is always required. A depth, canny, or pose pass on its own is never a valid control source.
+- **Colour or layout control source.** A colour, clay, or previs render of the shot that fixes motion, camera, and composition. Supply it as a StudioTwin asset, either an uploaded MP4 control video or an `image_sequence` asset, exactly one of the two. This primary source is always required. A depth, canny, or pose pass on its own is never a valid control source.
 - **Supplementary depth pass, only where the tool uses it.** A depth pass of the same shot, alongside the colour frames, is recommended for some video tools because it gives more consistent structure. Of the current tools, only LTX-2.3 depth uses one, and only from an image-sequence asset that carries it. The depth pass comes in addition to the colour source, which stays required.
 - **Concept frame.** One image that shows how a single moment of the clip should look. This is the `conceptFrame` input.
 - **Frame index.** The timeline position that the concept frame represents. This is `conceptFrameIdx`.
@@ -25,7 +25,7 @@ The current video definitions take one concept frame per generation. They expose
 
 If no video function is discovered, video generation is unavailable on this connection. Report that. Do not improvise video through another tool. Video can be available on one StudioTwin environment before another, so check the connection you are using.
 
-**Plan around the output.** Before choosing a tool, write down what the user wants delivered: duration, fps, size or aspect ratio, and which control source, depth pass, and concept frame exist. When the user has already decided the duration or the size, choose the supported tool that delivers it. If no tool delivers it exactly, explain the mismatch and the closest supported options, and let the user choose. Do not silently change the duration, size, aspect ratio, or fps to fit a tool.
+**Plan around the output.** Before choosing a tool, write down what the user wants delivered: duration, fps, size or aspect ratio, and which control source, depth pass, and concept frame exist. When the user has already decided the duration or the size, choose the supported tool that delivers it. If no tool delivers it exactly, explain the mismatch and the closest supported options, including [several shots joined afterwards](#plan-multiple-shots) when the duration is too long for one generation, and let the user choose. Do not silently change the duration, size, aspect ratio, or fps to fit a tool.
 
 ## 2. Choose the model
 
@@ -41,6 +41,17 @@ Two functions are currently expected. Confirm each name and envelope in the live
 - **Respect the envelope.** Requests outside a tool's envelope are rejected before dispatch. Do not submit them to probe the limit. If a shot needs more frames or another size than LTX-2.3 depth allows, offer LTX-2.5 and say that it will not use the depth pass.
 - Do not split one shot into several paid generations without the user's agreement.
 
+### Plan multiple shots
+
+Each video generation produces one continuous clip within one tool's envelope. When the requested total duration is longer than the chosen tool allows, or the piece is naturally several shots, propose a multi-shot plan instead of shortening the request. Report the tool limit and the mismatch first. Do not silently change the requested duration.
+
+1. **Split the timeline into shots.** Prefer deliberate clean cuts, such as a change of camera angle, location, or subject, over splitting one continuous camera move. Give each shot its own duration, fps, and `numFrames`.
+2. **Use the same suitable tool for every shot**, at the same size and fps, so the clips match when they are joined. Each shot must fit that tool's envelope on its own.
+3. **Prepare each shot completely.** Every shot needs its own colour or layout control source covering its frames, and its own concept frame matching that source at the chosen index. A shot cannot borrow another shot's source or concept frame.
+4. **Keep the look consistent.** Prepare every shot's concept frame in the same style: use the same prompt wording for the look and, where the Frame Concept supports one, the same style reference image. This helps the shots look alike. It does not guarantee identical characters or objects, matching lighting, or a seamless join across a cut, so tell the user that.
+5. **Estimate the whole plan.** Run the live cost estimate for each shot with its exact inputs, and add the cost of any concept frames you still need to generate. State the per-shot and combined estimate, and get authorization for the full plan before the first submission. Then submit each shot as its own generation.
+6. **Join the clips afterwards.** Joining the downloaded MP4s is a separate editing step in the user's own tools, such as an editor or `ffmpeg`. StudioTwin does not join video clips. The motion stitch functions only join motion clips. Do not offer them for video, and do not describe the join as a StudioTwin generation step.
+
 ## 3. Prepare the control source
 
 Decide the output size, fps, and frame count first, because the source must cover them.
@@ -51,7 +62,7 @@ Decide the output size, fps, and frame count first, because the source must cove
 - **Size.** Pick the output width and height from the live definition. The video functions fit the control source to that size. Confirm the source's aspect ratio matches the output so that nothing important falls outside the frame. If it does not, report the mismatch rather than cropping silently.
 - **Control type.** Use `raw` for a colour, clay, or previs source on LTX-2.5. On LTX-2.3 depth, keep the default `depth`, which applies to the depth pass in the image-sequence asset. The live definition describes the expected depth direction.
 
-**Control video.** Upload the colour or layout video through the Remote MCP upload lifecycle, then confirm the completed asset resolves as a video. A control video carries no depth pass. The live definitions do not list accepted containers or codecs. If a file is rejected, report the error rather than converting it repeatedly.
+**Control video.** A control video is uploaded through the same Remote MCP upload lifecycle as any other file. No separate video upload tool exists. Upload the colour or layout render as an MP4, complete the upload without `entries`, and confirm that the completed asset's type is `video`. StudioTwin currently classifies only `.mp4` files as `video`. Pass it in `controlVideo` as `vpc::assets/<uuid>`. A control video carries no depth pass. The live definitions do not list accepted codecs. If a file is rejected, report the error rather than converting it repeatedly.
 
 **Image sequence.** The live definitions accept a StudioTwin `image_sequence` asset: a TAR archive that StudioTwin validates on upload completion, which requires the archive's ordered entries. It carries the colour frames and, optionally, a depth pass. The archive layout, frame naming, ordering, image format, depth-pass format, and metadata are not published in the live definitions or the public StudioTwin docs. Do not assemble one from guesswork. Use an existing validated `image_sequence` asset or a control video. Otherwise, tell the user that sequence packaging is not yet publicly specified.
 
@@ -75,11 +86,11 @@ Follow the Remote MCP [workflow](connectors/remote-mcp.md#workflow) for uploads.
 
 ## 6. Estimate and authorize
 
-Run the live cost estimate with the exact inputs you will submit, including `numFrames`, size, control type, and the concept frame. Video cost scales with the frame count. If the estimate rejects the inputs, correct them. Do not submit to find out. State the estimate and get authorization for that one generation. If no estimate is available, say the cost is unknown before asking, as `SKILL.md` requires.
+Run the live cost estimate with the exact inputs you will submit, including `numFrames`, size, control type, and the concept frame. Video cost scales with the frame count. If the estimate rejects the inputs, correct them. Do not submit to find out. State the estimate and get authorization for that one generation. For a [multi-shot plan](#plan-multiple-shots), estimate every shot and get authorization for the combined total before the first submission. If no estimate is available, say the cost is unknown before asking, as `SKILL.md` requires.
 
 ## 7. Submit, poll, download, and verify
 
-Submit once and follow the [asynchronous generation](operations.md#asynchronous-generation) and [download](operations.md#downloading-remote-outputs) lifecycle. Then check the video-specific results:
+Submit each authorized generation once and follow the [asynchronous generation](operations.md#asynchronous-generation) and [download](operations.md#downloading-remote-outputs) lifecycle. Then check the video-specific results:
 
 - Read the returned configuration and warnings. Confirm the delivered width and height, fps, frame count, control type, and concept frame index. On LTX-2.5, the faster preview quality delivers half the requested width and height. The configuration reports both values.
 - Resolve and download the output video asset. If a download link expires, re-resolve the asset. Do not regenerate it.
@@ -96,4 +107,5 @@ Include the items `SKILL.md` requires, plus:
 - the control source asset id and type, and whether a depth pass was used;
 - the frame count, size, fps, and the estimated and charged cost where available;
 - the job id, output asset id, and local MP4 path;
-- what was verified in the file, and any warnings or mismatches.
+- what was verified in the file, and any warnings or mismatches;
+- for a multi-shot plan, these items for each shot, the combined estimated and charged cost, the planned shot order, and that the clips still need to be joined in an editor.
