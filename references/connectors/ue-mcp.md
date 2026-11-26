@@ -41,6 +41,8 @@ StudioTwin toolkit visible under **Tools → STUDIOTWIN** in the Editor:
 | Material    | PBR material from texture/image/text references           | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/material-toolkit/ |
 | Audio       | sound effects from a text brief                            | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/audio-toolkit/ |
 
+Unreal Engine video support is upcoming.
+
 Detailed capability-selection and prompting guidance: [../capabilities.md](../capabilities.md),
 [../content-guidance.md](../content-guidance.md). Job / import / mutation handling:
 [../operations.md](../operations.md).

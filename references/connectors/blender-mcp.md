@@ -51,6 +51,8 @@ current addon importer can consume after the output is downloaded.
 | Material | PBR material from texture, image, or text references | Build a new unassigned material from supported PBR texture maps | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/material-toolkit/ |
 | Audio | Sound effects from a text brief | Add supported audio outputs to the Blender sequencer | https://docs.studiotwin.ai/docs/ue-plugin/toolkits/audio-toolkit/ |
 
+Blender video support is upcoming.
+
 Generation, downloading, Blender import, material assignment, scene placement,
 and rendering are separate stages. A request for one does not authorize the
 others.

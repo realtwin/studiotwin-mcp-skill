@@ -65,6 +65,10 @@ For three.js, WebGPU, or browser delivery, also follow the [three.js destination
 
 Motion workflows may impose strict frame-rate, frame-span, range, skeleton, and retargeting constraints. Read the live definitions and runtime validation rather than maintaining a second static contract here.
 
+### Video
+
+Use for generating an MP4 clip from a colour or layout control video or image-sequence asset, a prompt, and one concept frame. The concept frame is usually the active output asset of a ConceptLab `frame` Concept. Video generation and download run through Remote MCP when the live tool list exposes the video functions. Unreal Engine and Blender video support is upcoming. Follow the [video workflow](video.md) to choose a model, prepare the control source and concept frame, set an explicit frame count, estimate, and verify the file.
+
 ### Job status
 
 Use the discovered polling capability for asynchronous operations. Poll the identifier returned by the original submission; do not start a second generation to check progress.
